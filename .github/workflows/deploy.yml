@@ -1,0 +1,54 @@
+# Deploy Better Machine website to .32 server
+name: Deploy Website
+
+on:
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: web/package-lock.json
+    
+    - name: Install dependencies
+      working-directory: ./web
+      run: npm ci
+    
+    - name: Build application
+      working-directory: ./web
+      run: npm run build
+    
+    - name: Deploy to .32 server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.WEBSITE_HOST }}
+        username: ${{ secrets.WEBSITE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "web/dist/*"
+        target: "/var/www/bettermachine"
+        strip_components: 2
+        rm: true
+    
+    - name: Restart nginx
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.WEBSITE_HOST }}
+        username: ${{ secrets.WEBSITE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          sudo nginx -t
+          sudo systemctl restart nginx
+          echo "Deployment complete at $(date)"
