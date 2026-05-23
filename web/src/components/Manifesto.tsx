@@ -2,24 +2,24 @@
 
 export function Manifesto() {
   return (
-    <section id="studio" className="py-32 bg-charcoal relative">
+    <section id="studio" className="py-32 bg-[#141414] relative">
       {/* Decorative line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent to-copper/30" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent to-[#B87333]/30" />
 
       <div className="max-w-4xl mx-auto px-6">
         <div className="grid md:grid-cols-12 gap-12">
           {/* Label */}
           <div className="md:col-span-3">
-            <span className="text-copper text-sm font-mono tracking-wider">Our stance</span>
+            <span className="text-[#B87333] text-sm font-mono tracking-wider">Our stance</span>
           </div>
 
           {/* Content */}
           <div className="md:col-span-9 space-y-8">
-            <h2 className="text-display-2 font-medium text-offwhite text-balance">
+            <h2 className="text-display-2 font-medium text-[#FAFAFA] text-balance">
               Retro minimalists with big dreams.
             </h2>
 
-            <div className="space-y-6 text-lg text-silver leading-relaxed">
+            <div className="space-y-6 text-lg text-[#A0A0A0] leading-relaxed">
               <p>
                 We believe the best solutions come from distinct personalities and absolute candor. 
                 No corporate speak. No performative collaboration. Just smart people (and agents) 
@@ -31,7 +31,7 @@ export function Manifesto() {
                 the status quo, and a desire to build great big things for good purposes.
               </p>
 
-              <p className="text-offwhite">
+              <p className="text-[#FAFAFA]">
                 We are the machine. And we are making it better.
               </p>
             </div>
@@ -39,16 +39,16 @@ export function Manifesto() {
             {/* Principles */}
             <div className="pt-8 border-t border-white/10 grid sm:grid-cols-3 gap-6">
               <div>
-                <h3 className="text-offwhite font-medium mb-2">Passion</h3>
-                <p className="text-sm text-silver">We only build things we care about.</p>
+                <h3 className="text-[#FAFAFA] font-medium mb-2">Passion</h3>
+                <p className="text-sm text-[#A0A0A0]">We only build things we care about.</p>
               </div>
               <div>
-                <h3 className="text-offwhite font-medium mb-2">Idealism</h3>
-                <p className="text-sm text-silver">The world can be better. We act on that.</p>
+                <h3 className="text-[#FAFAFA] font-medium mb-2">Idealism</h3>
+                <p className="text-sm text-[#A0A0A0]">The world can be better. We act on that.</p>
               </div>
               <div>
-                <h3 className="text-offwhite font-medium mb-2">Capitalism</h3>
-                <p className="text-sm text-silver">Sustainable businesses fund more good.</p>
+                <h3 className="text-[#FAFAFA] font-medium mb-2">Capitalism</h3>
+                <p className="text-sm text-[#A0A0A0]">Sustainable businesses fund more good.</p>
               </div>
             </div>
           </div>

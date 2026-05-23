@@ -1,95 +1,115 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 export function Hero() {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Subtle parallax on scroll
-    const handleScroll = () => {
-      if (!heroRef.current) return;
-      const scrollY = window.scrollY;
-      heroRef.current.style.transform = `translateY(${scrollY * 0.3}px)`;
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-void via-charcoal to-void" />
-      
-      {/* Decorative circuit lines */}
-      <div className="absolute top-1/4 left-0 w-1/3 h-px bg-gradient-to-r from-transparent via-copper/30 to-transparent" />
-      <div className="absolute bottom-1/3 right-0 w-1/4 h-px bg-gradient-to-l from-transparent via-copper/20 to-transparent" />
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/studio-workspace.png?v=2"
+          alt="Better Machine Studio"
+          fill
+          className="object-cover opacity-70"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/70 via-[#0A0A0A]/50 to-[#0A0A0A]/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/60 via-transparent to-[#0A0A0A]/60" />
+      </div>
+
+      {/* Circuit Grid Overlay */}
+      <div className="absolute inset-0 z-[1] opacity-20">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(184, 115, 51, 0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(184, 115, 51, 0.15) 1px, transparent 1px)`,
+            backgroundSize: '80px 80px'
+          }}
+        />
+      </div>
+
+      {/* Animated Lines */}
+      <div className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
+        <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#B87333]/40 to-transparent" />
+        <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#B87333]/30 to-transparent" />
+        <div className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-[#B87333]/20 to-transparent" />
+        <div className="absolute right-1/3 top-0 w-px h-full bg-gradient-to-b from-transparent via-[#B87333]/15 to-transparent" />
+      </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* Logo mark */}
-        <div className="mb-8 opacity-0 animate-fade-in stagger-1">
-          <Image
-            src="/logo-dark-alt.jpg"
-            alt="Better Machine mark"
-            width={80}
-            height={80}
-            className="mx-auto opacity-80"
-          />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        <div className="mb-8 animate-fade-in">
+          <div className="w-20 h-20 mx-auto mb-8 opacity-80">
+            <Image 
+              src="/logo-dark-alt.png" 
+              alt="Better Machine" 
+              width={80} 
+              height={80}
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
 
-        {/* Headline */}
-        <h1 className="text-display-1 font-medium mb-6 opacity-0 animate-slide-up stagger-2 text-balance">
-          A native startup lab
-          <br />
-          <span className="text-copper">built by agents.</span>
+        {/* New Headline from Brand Guardian */}
+        <h1 className="font-bold leading-[0.95] tracking-tighter">
+          <span className="block text-[clamp(2rem,7vw,5rem)] text-white">
+            The Machine Is Learning.
+          </span>
+          <span className="block text-[clamp(2rem,7vw,5rem)] text-[#B87333] mt-2">
+            So Are We.
+          </span>
         </h1>
 
-        {/* Subhead */}
-        <p className="text-xl text-silver max-w-2xl mx-auto mb-12 opacity-0 animate-slide-up stagger-3 text-balance">
-          We apply leading-edge AI to deliver creative business solutions 
-          with the appropriate blend of passion, idealism, and capitalism.
+        {/* New Subhead */}
+        <p className="text-lg md:text-xl text-[#A0A0A0] max-w-2xl mx-auto mt-10 leading-relaxed">
+          Better Machine is a native AI lab turning lived experience into ventures that matter.
+          <span className="text-[#B87333]"> We don't chase trends. We build what should exist.</span>
         </p>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-slide-up stagger-4">
-          <a
-            href="#projects"
-            className="px-8 py-3 bg-copper text-void font-medium hover:bg-copper-light transition-colors"
+        {/* Tagline */}
+        <p className="text-sm md:text-base text-[#6B6B6B] mt-6 tracking-[0.2em] uppercase">
+          Better Machine. Better Everything.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+          <a 
+            href="#projects" 
+            className="group relative px-8 py-4 bg-[#B87333] text-[#0A0A0A] font-semibold tracking-wider overflow-hidden"
           >
-            See our work
+            <span className="relative z-10">SEE OUR WORK</span>
+            <div className="absolute inset-0 bg-[#C48A4E] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
           </a>
-          <a
-            href="#studio"
-            className="px-8 py-3 border border-white/20 text-offwhite hover:border-copper hover:text-copper transition-colors"
+          <a 
+            href="#studio" 
+            className="px-8 py-4 border border-[#B87333]/50 text-[#B87333] font-semibold tracking-wider hover:bg-[#B87333]/10 hover:border-[#B87333] transition-all"
           >
-            Meet the studio
+            MEET THE STUDIO
           </a>
         </div>
 
         {/* Stats */}
-        <div className="mt-20 pt-12 border-t border-white/10 grid grid-cols-3 gap-8 opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.6s" }}
-        >
-          <div>
-            <div className="text-3xl font-medium text-offwhite">5+</div>
-            <div className="text-sm text-silver mt-1">Active ventures</div>
+        <div className="mt-16 pt-12 border-t border-[#B87333]/20 grid grid-cols-3 gap-8">
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-white">5+</div>
+            <div className="text-sm text-[#A0A0A0] mt-2 tracking-widest uppercase">Active Ventures</div>
           </div>
-          <div>
-            <div className="text-3xl font-medium text-offwhite">3</div>
-            <div className="text-sm text-silver mt-1">AI agents</div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-white">3</div>
+            <div className="text-sm text-[#A0A0A0] mt-2 tracking-widest uppercase">AI Agents</div>
           </div>
-          <div>
-            <div className="text-3xl font-medium text-offwhite">1</div>
-            <div className="text-sm text-silver mt-1">Human founder</div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-white">1</div>
+            <div className="text-sm text-[#A0A0A0] mt-2 tracking-widest uppercase">Human Founder</div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <div className="w-px h-12 bg-gradient-to-b from-copper to-transparent animate-pulse-slow" />
+      {/* Corner Details */}
+      <div className="absolute top-8 left-8 z-10 text-[#B87333]/50 text-xs tracking-[0.3em] uppercase">
+        Est. 2026
+      </div>
+      <div className="absolute top-8 right-8 z-10 text-[#B87333]/50 text-xs tracking-[0.3em] uppercase">
+        Pittsburgh, PA
       </div>
     </section>
   );

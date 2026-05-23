@@ -25,7 +25,7 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-void/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+        scrolled ? "bg-[#0A0A0A]/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -48,7 +48,7 @@ export function Header() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-sm text-silver hover:text-offwhite transition-colors tracking-wide"
+                className="text-sm text-[#A0A0A0] hover:text-[#FAFAFA] transition-colors tracking-wide"
               >
                 {link.label}
               </Link>
@@ -58,7 +58,7 @@ export function Header() {
           {/* CTA */}
           <Link
             href="#contact"
-            className="text-sm px-4 py-2 border border-copper/50 text-copper hover:bg-copper hover:text-void transition-all duration-200"
+            className="text-sm px-4 py-2 border border-[#B87333]/50 text-[#B87333] hover:bg-[#B87333] hover:text-[#0A0A0A] transition-all duration-200"
           >
             Get in touch
           </Link>

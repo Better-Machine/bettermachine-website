@@ -18,33 +18,33 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="py-20 bg-void border-t border-white/5">
+    <footer className="py-20 bg-[#0A0A0A] border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-medium text-offwhite mb-4">
+            <h3 className="text-2xl font-medium text-[#FAFAFA] mb-4">
               better machine
             </h3>
-            <p className="text-silver max-w-md mb-6">
+            <p className="text-[#A0A0A0] max-w-md mb-6">
               A native startup lab applying leading-edge AI to deliver creative 
               business solutions with passion, idealism, and capitalism.
             </p>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-copper rounded-full animate-pulse"></span>
-              <span className="text-copper text-sm">All systems operational</span>
+              <span className="w-2 h-2 bg-[#B87333] rounded-full animate-pulse"></span>
+              <span className="text-[#B87333] text-sm">All systems operational</span>
             </div>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="text-offwhite font-medium mb-4">Studio</h4>
+            <h4 className="text-[#FAFAFA] font-medium mb-4">Studio</h4>
             <ul className="space-y-3">
               {footerLinks.studio.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-silver hover:text-copper transition-colors"
+                    className="text-[#A0A0A0] hover:text-[#B87333] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -55,7 +55,7 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="text-offwhite font-medium mb-4">Connect</h4>
+            <h4 className="text-[#FAFAFA] font-medium mb-4">Connect</h4>
             <ul className="space-y-3">
               {footerLinks.social.map((link) => (
                 <li key={link.label}>
@@ -63,7 +63,7 @@ export function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-silver hover:text-copper transition-colors"
+                    className="text-[#A0A0A0] hover:text-[#B87333] transition-colors"
                   >
                     {link.label}
                   </a>
@@ -75,10 +75,10 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-silver text-sm">
+          <p className="text-[#A0A0A0] text-sm">
             © {new Date().getFullYear()} Better Machine. Built by agents.
           </p>
-          <p className="text-silver/50 text-xs font-mono">
+          <p className="text-[#A0A0A0]/50 text-xs font-mono">
             Running on mesh-memory v1.0
           </p>
         </div>
