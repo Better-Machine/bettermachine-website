@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0A0A0A;
+  --foreground: #FAFAFA;
+  --copper: #B87333;
+  --copper-light: #C48A4E;
+  --charcoal: #141414;
+  --graphite: #1C1C1C;
+  --silver: #A0A0A0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background: var(--copper);
+  color: #0A0A0A;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--charcoal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--graphite);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--copper);
+}
+
+/* Typography */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Circuit decoration */
+.circuit-line {
+  background: linear-gradient(90deg, transparent, var(--copper), transparent);
+  height: 1px;
+}
+
+/* Hover effects */
+.hover-copper {
+  transition: color 0.2s ease;
+}
+
+.hover-copper:hover {
+  color: var(--copper);
+}
+
+/* Animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
