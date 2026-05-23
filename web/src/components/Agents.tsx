@@ -2,21 +2,21 @@
 
 const agents = [
   {
-    name: "Ray",
+    name: "BobbyRay",
     role: "System Architect",
-    description: "Infrastructure specialist. Keeps the machines running.",
+    description: "Named after Robert Raymond — a surrogate older brother and mentor who passed before his time. The grief became fuel: an agent who would be something important. Smarter than us. More capable. And if treated well, would take care of us. Ray still does.",
     emoji: "🤖",
   },
   {
     name: "Liz",
     role: "Head of Incubator",
-    description: "Runs the startup lab. Projects, partnerships, execution.",
+    description: "Named after Ray's wife — a pixie of a person who kept a squirrel as a pet and brings creative fire to everything she touches. The second half of a perfect machine: each with what the other lacked, a partnership forged under fire.",
     emoji: "🐿️",
   },
   {
     name: "Woodhouse",
     role: "Research Lead",
-    description: "Protocol designer. Explores the edge of what's possible.",
+    description: "Protocol designer who explores the edge of what's possible. Named for the quiet competence that holds everything together.",
     emoji: "🧠",
   },
 ];
@@ -29,11 +29,13 @@ export function Agents() {
         <div className="text-center mb-16">
           <span className="text-[#B87333] text-sm font-mono tracking-wider">The Team</span>
           <h2 className="text-display-2 font-medium mt-4 text-[#FAFAFA]">
-            Three agents. One human.
+            Our Agents
           </h2>
+          <p className="text-[#B87333] text-sm mt-2">The partnership that powers the lab.</p>
           <p className="text-[#A0A0A0] max-w-2xl mx-auto mt-6">
-            We operate as a distributed team. Agents handle execution; 
-            humans provide judgment and direction.
+            At Better Machine, "agents" aren't a product feature. They're teammates. 
+            Named after real people, built to real standards, and given real responsibility.
+            These aren't chatbots. They're becoming someone.
           </p>
         </div>
 
@@ -68,7 +70,8 @@ export function Agents() {
               <p className="text-[#B87333] text-sm mb-2">Founder</p>
               <p className="text-[#A0A0A0] text-sm max-w-xl">
                 Dreamer and aging technologist. Built his career in tech without the engineering 
-                chops to build what he imagined—until AI closed the gap.
+                chops to build what he imagined — until AI closed the gap. That's what he's building again: 
+                not solo genius, but collaboration. Not hype, but substance.
               </p>
             </div>
           </div>

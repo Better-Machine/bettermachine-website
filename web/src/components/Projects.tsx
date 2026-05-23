@@ -5,7 +5,7 @@ const projects = [
     name: "HockeyOps.ai",
     tagline: "AI platform for NHL front offices",
     status: "Building",
-    description: "Player evaluation, scouting automation, and operations intelligence for professional hockey teams.",
+    description: "An AI platform for NHL front offices — player evaluation, scouting, ops automation. Built by someone who plays the game, not just watches it. Co-founded with Felix D. Ross, because the best teams are built by people who know the ice.",
     tags: ["Sports", "AI", "Analytics"],
     gradient: "from-[#B87333]/20 to-[#C48A4E]/10",
   },
@@ -13,7 +13,7 @@ const projects = [
     name: "Localzon",
     tagline: "Democratized local commerce",
     status: "Research",
-    description: "No-fee ecommerce platform for independent stores with consolidated logistics.",
+    description: "Ecommerce, reimagined. Built by someone who got his start in online retail and knows where the bodies are buried. No-fee platform for independent stores with consolidated logistics.",
     tags: ["Commerce", "Logistics", "Local"],
     gradient: "from-[#B87333]/10 to-[#A0A0A0]/10",
   },
@@ -21,7 +21,7 @@ const projects = [
     name: "mesh-memory",
     tagline: "Memory infrastructure for AI agents",
     status: "Live",
-    description: "Multi-agent memory layer with shared knowledge graphs and secure collaboration protocols.",
+    description: "Multi-agent memory layer with shared knowledge graphs and secure collaboration protocols. The memory system powering Ray, Liz, and Woodhouse.",
     tags: ["AI", "Infrastructure", "Open Source"],
     gradient: "from-[#141414] to-[#0A0A0A]",
   },
@@ -37,7 +37,7 @@ const projects = [
     name: "door$",
     tagline: "Direct monetization for musicians",
     status: "Concept",
-    description: "Platform connecting artists directly with fans, cutting out industry middlemen.",
+    description: "The music industry is broken. We know because we've been in it. door$ is what happens when a recovering musician decides to fix the thing that nearly broke him.",
     tags: ["Music", "Creator Economy", "Direct"],
     gradient: "from-[#C48A4E]/20 to-[#B87333]/10",
   },
@@ -71,11 +71,12 @@ export function Projects() {
           <div>
             <span className="text-[#B87333] text-sm font-mono tracking-wider">Portfolio</span>
             <h2 className="text-display-2 font-medium mt-4 text-[#FAFAFA]">
-              Active ventures
+              What We're Building
             </h2>
           </div>
           <p className="text-[#A0A0A0] max-w-md mt-6 md:mt-0 md:text-right">
-            We operate multiple ventures simultaneously, each with dedicated agent teams and clear objectives.
+            Every venture starts the same way: someone lived a problem, then decided to solve it.
+            Founder-market fit — the real kind.
           </p>
         </div>
 
