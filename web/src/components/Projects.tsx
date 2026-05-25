@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const projects = [
   {
+    slug: "hockeyops",
     name: "HockeyOps.ai",
     tagline: "AI platform for NHL front offices",
     status: "Building",
@@ -13,6 +15,7 @@ const projects = [
     gradient: "from-copper/20 to-copper-light/10",
   },
   {
+    slug: "localzon",
     name: "Localzon",
     tagline: "Democratized local commerce",
     status: "Research",
@@ -21,6 +24,7 @@ const projects = [
     gradient: "from-copper/10 to-silver/10",
   },
   {
+    slug: "mesh-memory",
     name: "mesh-memory",
     tagline: "Memory infrastructure for AI agents",
     status: "Live",
@@ -29,6 +33,7 @@ const projects = [
     gradient: "from-charcoal to-void",
   },
   {
+    slug: "cleansl8",
     name: "CleanSL8",
     tagline: "BLE security for the real world",
     status: "MVP",
@@ -37,6 +42,7 @@ const projects = [
     gradient: "from-copper/30 to-void",
   },
   {
+    slug: "doors",
     name: "door$",
     tagline: "Direct monetization for musicians",
     status: "Concept",
@@ -127,8 +133,9 @@ export function Projects() {
           {projects.map((project, index) => {
             const status = statusConfig[project.status];
             return (
-              <div
+              <Link
                 key={project.name}
+                href={`/projects/${project.slug}`}
                 className={`group relative p-8 bg-gradient-to-br ${project.gradient} backdrop-blur-sm 
                            border border-white/5 hover:border-copper/50 transition-all duration-500 
                            overflow-hidden rounded-xl hover:shadow-[0_8px_40px_rgba(184,115,51,0.15)]
@@ -198,7 +205,7 @@ export function Projects() {
                     </svg>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
