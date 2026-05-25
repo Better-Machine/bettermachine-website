@@ -40,13 +40,14 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         <div className="mb-8 animate-fade-up">
-          <div className="w-20 h-20 mx-auto mb-8 opacity-80 hover:scale-110 transition-transform duration-500">
+          <div className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-8 opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
-              src="/logo-dark-alt.png" 
+              src="/logo-hero.png" 
               alt="Better Machine" 
-              width={80} 
-              height={80}
+              width={256} 
+              height={256}
               className="w-full h-full object-contain"
+              priority
             />
           </div>
         </div>
