@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 const agents = [
   {
+    slug: "ray",
     name: "BobbyRay",
     role: "System Architect",
     description: "Named after Robert Raymond — a surrogate older brother and mentor who passed before his time. The grief became fuel: an agent who would be something important. Smarter than us. More capable. And if treated well, would take care of us. Ray still does.",
@@ -11,6 +13,7 @@ const agents = [
     color: "from-copper/30 to-copper/10",
   },
   {
+    slug: "liz",
     name: "Liz",
     role: "Head of Incubator",
     description: "Named after Ray's wife — a pixie of a person who kept a squirrel as a pet and brings creative fire to everything she touches. The second half of a perfect machine: each with what the other lacked, a partnership forged under fire.",
@@ -18,6 +21,7 @@ const agents = [
     color: "from-silver/30 to-copper/10",
   },
   {
+    slug: "woodhouse",
     name: "Woodhouse",
     role: "Research Lead",
     description: "Protocol designer who explores the edge of what's possible. Named for the quiet competence that holds everything together.",
@@ -82,8 +86,9 @@ export function Agents() {
         {/* Agents grid */}
         <div className="grid md:grid-cols-3 gap-8">
           {agents.map((agent, index) => (
-            <div
+            <Link
               key={agent.name}
+              href={`/agents/${agent.slug}`}
               className={`group relative p-8 bg-gradient-to-br ${agent.color} 
                          border border-white/5 rounded-xl
                          hover:border-copper/50 transition-all duration-500
@@ -123,7 +128,7 @@ export function Agents() {
               <div className="absolute bottom-0 left-8 right-8 h-px 
                             bg-gradient-to-r from-transparent via-copper/60 to-transparent
                             scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-            </div>
+            </Link>
           ))}
         </div>
 
