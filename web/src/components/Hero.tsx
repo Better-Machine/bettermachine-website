@@ -42,7 +42,7 @@ export function Hero() {
         <div className="mb-8 animate-fade-up">
           <div className="w-56 h-56 md:w-80 md:h-80 mx-auto opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
-              src="/logo-emblem-only.png" 
+              src="/logo-emblem-only.png?v=2" 
               alt="Better Machine" 
               width={320} 
               height={320}
