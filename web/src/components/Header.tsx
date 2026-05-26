@@ -32,14 +32,17 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <Image
-              src="/logo-lockup-dark.png"
-              alt="Better Machine"
-              width={140}
-              height={32}
-              className="h-6 w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-              priority
-            />
+            <div className="flex items-center gap-2">
+              <Image
+                src="/logo-hero.png"
+                alt="Better Machine"
+                width={32}
+                height={32}
+                className="h-8 w-auto opacity-90 group-hover:opacity-100 transition-opacity"
+                priority
+              />
+              <span className="text-[#B87333] font-semibold tracking-wider text-lg">BETTER MACHINE</span>
+            </div>
           </Link>
 
           {/* Navigation */}

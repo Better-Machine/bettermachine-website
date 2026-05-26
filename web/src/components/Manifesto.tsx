@@ -40,8 +40,7 @@ export function Manifesto() {
       <div className="max-w-4xl mx-auto px-6 relative">
         {/* Section header */}
         <div 
-          className="text-center mb-16 reveal transition-all duration-700 ease-dramatic"
-          style={{ opacity: 0, transform: 'translateY(2rem)' }}
+          className="text-center mb-16 reveal"
         >
           <span className="font-mono text-sm text-copper tracking-[0.2em] uppercase">
             Why We Build
@@ -50,7 +49,7 @@ export function Manifesto() {
         </div>
 
         {/* Pull quote */}
-        <blockquote className="relative my-20 py-12 px-8 text-center reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-100">
+        <blockquote className="relative my-20 py-12 px-8 text-center reveal">
           <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[10rem] text-copper/10 font-serif leading-none pointer-events-none select-none">
             "
           </span>
@@ -62,24 +61,24 @@ export function Manifesto() {
 
         {/* Content */}
         <div className="space-y-8 text-lg text-silver leading-relaxed max-w-3xl mx-auto">
-          <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-200">
+          <p className="reveal">
             Some people see a problem and write a blog post. We see a problem and ask:{" "}
             <em className="text-snow">what would it take to fix this?</em>
           </p>
 
-          <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-300">
+          <p className="reveal">
             Better Machine isn't a consultancy. It's not a product studio. It's a startup lab — native to AI, born from decades of wanting to build but lacking the tools. Our founder spent his career in technology without the engineering chops to execute his vision. Then AI closed the gap. That gap — the one between imagination and execution — is what we exist to close for everyone else stuck on the wrong side of it.
           </p>
 
-          <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-400">
+          <p className="reveal">
             We name our agents after people who matter. Ray — a best friend, a mentor, gone too soon, but whose name carries forward something smarter and more capable than any of us. Liz — a partnership forged under fire, two halves of a perfect machine. That's what we believe in: not solo genius, but collaboration. Not hype, but substance. Not waiting for permission, but building anyway.
           </p>
 
-          <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-500">
+          <p className="reveal">
             We believe passion and capitalism aren't opposites. We believe idealism without execution is just daydreaming. And we believe that if something sucks, someone should fix it.
           </p>
 
-          <p className="text-snow font-medium text-xl reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-600">
+          <p className="text-snow font-medium text-xl reveal">
             That someone is us.
           </p>
         </div>
@@ -120,8 +119,7 @@ export function Manifesto() {
               key={principle.title}
               className="group relative p-6 bg-charcoal/30 border border-white/5 rounded-xl
                          hover:border-copper/50 transition-all duration-500
-                         hover:shadow-[0_8px_40px_rgba(184,115,51,0.1)] reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic"
-              style={{ transitionDelay: `${700 + index * 100}ms` }}
+                         hover:shadow-[0_8px_40px_rgba(184,115,51,0.1)] reveal"
             >
               <div className="w-12 h-12 mb-6 text-copper group-hover:scale-110
                             group-hover:drop-shadow-[0_0_12px_rgba(184,115,51,0.5)]

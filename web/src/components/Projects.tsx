@@ -112,7 +112,7 @@ export function Projects() {
 
       <div className="max-w-6xl mx-auto px-6 relative">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-20 reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-20 reveal">
           <div>
             <span className="font-mono text-sm text-copper tracking-[0.2em] uppercase">
               Portfolio
@@ -139,8 +139,7 @@ export function Projects() {
                 className={`group relative p-8 bg-gradient-to-br ${project.gradient} backdrop-blur-sm 
                            border border-white/5 hover:border-copper/50 transition-all duration-500 
                            overflow-hidden rounded-xl hover:shadow-[0_8px_40px_rgba(184,115,51,0.15)]
-                           reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic`}
-                style={{ transitionDelay: `${100 + index * 100}ms` }}
+                           reveal`}
               >
                 {/* Animated top border */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-copper to-transparent 

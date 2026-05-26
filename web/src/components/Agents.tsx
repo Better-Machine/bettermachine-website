@@ -67,7 +67,7 @@ export function Agents() {
 
       <div className="max-w-5xl mx-auto px-6 relative">
         {/* Header */}
-        <div className="text-center mb-16 reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic">
+        <div className="text-center mb-16 reveal">
           <span className="font-mono text-sm text-copper tracking-[0.2em] uppercase">
             The Team
           </span>
@@ -93,8 +93,7 @@ export function Agents() {
                          border border-white/5 rounded-xl
                          hover:border-copper/50 transition-all duration-500
                          hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]
-                         reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic`}
-              style={{ transitionDelay: `${100 + index * 100}ms` }}
+                         reveal`}
             >
               {/* Animated top border */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-copper to-transparent 
@@ -133,7 +132,7 @@ export function Agents() {
         </div>
 
         {/* Human founder */}
-        <div className="mt-16 p-8 bg-void/50 border border-white/5 rounded-2xl reveal opacity-0 translate-y-8 transition-all duration-700 ease-dramatic delay-500"
+        <div className="mt-16 p-8 bg-void/50 border border-white/5 rounded-2xl reveal"
         >
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="w-20 h-20 bg-graphite border border-copper/20 rounded-full flex items-center justify-center text-3xl
