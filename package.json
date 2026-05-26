@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "cd web && npm ci && npm run build"
+  },
   "dependencies": {
     "better-sqlite3": "^12.10.0",
     "drizzle-kit": "^0.31.10",
