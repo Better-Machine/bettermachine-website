@@ -38,8 +38,8 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        <div className="mb-8 animate-fade-up">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-28">
+        <div className="mb-6 animate-fade-up">
           <div className="w-56 h-56 md:w-80 md:h-80 mx-auto opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
               src="/logo-emblem-only.png?v=2" 
@@ -50,11 +50,8 @@ export function Hero() {
               priority
             />
           </div>
-          <p className="text-copper font-bold tracking-[0.25em] text-xl md:text-2xl mt-2 leading-tight">
-            BETTER
-          </p>
-          <p className="text-copper font-bold tracking-[0.25em] text-xl md:text-2xl leading-tight">
-            MACHINE
+          <p className="text-[clamp(2.5rem,8vw,5.5rem)] text-copper mt-2 leading-tight animate-fade-up">
+            BETTER MACHINE
           </p>
         </div>
 
