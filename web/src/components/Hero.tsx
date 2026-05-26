@@ -40,12 +40,12 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         <div className="mb-8 animate-fade-up">
-          <div className="w-72 h-72 md:w-[28rem] md:h-[28rem] mx-auto mb-8 opacity-80 hover:scale-110 transition-transform duration-500">
+          <div className="w-[22rem] h-[22rem] md:w-[35rem] md:h-[35rem] mx-auto mb-8 opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
               src="/logo-hero.png" 
               alt="Better Machine" 
-              width={448} 
-              height={448}
+              width={560} 
+              height={560}
               className="w-full h-full object-contain"
               priority
             />
@@ -154,10 +154,10 @@ export function Hero() {
       </div>
 
       {/* Corner Details */}
-      <div className="absolute top-8 left-8 z-10 text-copper/60 text-xs tracking-[0.3em] uppercase">
+      <div className="absolute top-24 left-8 z-10 text-copper/60 text-xs tracking-[0.3em] uppercase">
         Est. 2026
       </div>
-      <div className="absolute top-8 right-8 z-10 text-copper/60 text-xs tracking-[0.3em] uppercase">
+      <div className="absolute top-24 right-8 z-10 text-copper/60 text-xs tracking-[0.3em] uppercase">
         Pittsburgh, PA
       </div>
     </section>

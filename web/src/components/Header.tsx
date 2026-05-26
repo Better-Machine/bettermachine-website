@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 const navLinks = [
   { label: "Studio", href: "#studio" },
@@ -32,17 +31,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center gap-2">
-              <Image
-                src="/logo-hero.png"
-                alt="Better Machine"
-                width={32}
-                height={32}
-                className="h-8 w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-                priority
-              />
-              <span className="text-[#B87333] font-semibold tracking-wider text-lg">BETTER MACHINE</span>
-            </div>
+            <span className="text-[#B87333] font-semibold tracking-wider text-lg group-hover:text-[#FAFAFA] transition-colors">BETTER MACHINE</span>
           </Link>
 
           {/* Navigation */}
