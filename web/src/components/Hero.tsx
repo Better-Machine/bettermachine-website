@@ -59,11 +59,11 @@ export function Hero() {
         <div className="relative">
           <div className="absolute -inset-8 bg-gradient-to-b from-transparent via-void/30 to-transparent blur-2xl -z-10" />
           <h1 className="font-extrabold leading-[0.95] tracking-[-0.03em]">
-            <span className="block text-[clamp(2.5rem,8vw,5.5rem)] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.5)] animate-fade-up">
+            <span className="block text-[clamp(1.875rem,6vw,4.125rem)] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.5)] animate-fade-up">
               The Machine Is Learning.
             </span>
             <span 
-              className="block text-[clamp(2.5rem,8vw,5.5rem)] text-copper mt-2 drop-shadow-[0_2px_24px_rgba(184,115,51,0.3)] animate-fade-up"
+              className="block text-[clamp(1.875rem,6vw,4.125rem)] text-copper mt-2 drop-shadow-[0_2px_24px_rgba(184,115,51,0.3)] animate-fade-up"
               style={{ animationDelay: '0.1s' }}
             >
               So Are We.
