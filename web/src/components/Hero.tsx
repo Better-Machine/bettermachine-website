@@ -40,18 +40,21 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         <div className="mb-8 animate-fade-up">
-          <div className="w-[22rem] h-[22rem] md:w-[35rem] md:h-[35rem] mx-auto mb-4 opacity-80 hover:scale-110 transition-transform duration-500">
+          <div className="w-56 h-56 md:w-80 md:h-80 mx-auto opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
               src="/logo-emblem-only.png" 
               alt="Better Machine" 
-              width={560} 
-              height={560}
+              width={320} 
+              height={320}
               className="w-full h-full object-contain"
               priority
             />
           </div>
-          <p className="text-copper font-semibold tracking-[0.3em] text-lg md:text-xl mt-4">
-            BETTER MACHINE
+          <p className="text-copper font-bold tracking-[0.25em] text-xl md:text-2xl mt-2 leading-tight">
+            BETTER
+          </p>
+          <p className="text-copper font-bold tracking-[0.25em] text-xl md:text-2xl leading-tight">
+            MACHINE
           </p>
         </div>
 
