@@ -52,6 +52,7 @@ jobs:
         host: ${{ secrets.DEPLOY_HOST }}
         username: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
+        port: 65002
         source: "dist/"
         target: "/var/www/bettermachine"
         strip_components: 1
