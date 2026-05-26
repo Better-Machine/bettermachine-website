@@ -42,7 +42,7 @@ export function Hero() {
         <div className="mb-8 animate-fade-up">
           <div className="w-[22rem] h-[22rem] md:w-[35rem] md:h-[35rem] mx-auto mb-4 opacity-80 hover:scale-110 transition-transform duration-500">
             <Image 
-              src="/logo-hero.png" 
+              src="/logo-emblem-only.png" 
               alt="Better Machine" 
               width={560} 
               height={560}
@@ -50,6 +50,9 @@ export function Hero() {
               priority
             />
           </div>
+          <p className="text-copper font-semibold tracking-[0.3em] text-lg md:text-xl mt-4">
+            BETTER MACHINE
+          </p>
         </div>
 
         {/* Headline with text shadow and backdrop blur */}
