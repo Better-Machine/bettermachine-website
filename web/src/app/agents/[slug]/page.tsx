@@ -4,9 +4,9 @@ import { AgentHero } from "@/components/agent/AgentHero";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-interface AgentPageProps {
-  params: { slug: string };
-}
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
 
 // Static export — disable dynamic params
 export const dynamicParams = false;
@@ -22,9 +22,11 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({
-  params,
-}: AgentPageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
+  const { slug } = await params;
+  
   const agentNames: Record<string, string> = {
     erik: "Erik Ross",
     liz: "Liz",
@@ -32,7 +34,7 @@ export async function generateMetadata({
     woodhouse: "Woodhouse",
   };
 
-  const name = agentNames[params.slug] || params.slug;
+  const name = agentNames[slug] || slug;
 
   return {
     title: `${name} | Better Machine Team`,
@@ -40,7 +42,9 @@ export async function generateMetadata({
   };
 }
 
-export default function AgentPage({ params }: AgentPageProps) {
+export default async function AgentPage({ params }: PageProps) {
+  const { slug } = await params;
+  
   // Agent data from static source
   const agentData: Record<
     string,
@@ -88,7 +92,7 @@ export default function AgentPage({ params }: AgentPageProps) {
     },
   };
 
-  const agent = agentData[params.slug];
+  const agent = agentData[slug];
 
   if (!agent) {
     notFound();

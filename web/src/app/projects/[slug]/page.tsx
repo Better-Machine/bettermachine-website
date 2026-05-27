@@ -5,9 +5,9 @@ import { BlogCard } from "@/components/blog/BlogCard";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-interface ProjectPageProps {
-  params: { slug: string };
-}
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
 
 // Static export — disable dynamic params
 export const dynamicParams = false;
@@ -24,9 +24,11 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({
-  params,
-}: ProjectPageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
+  const { slug } = await params;
+  
   const projectNames: Record<string, string> = {
     hockeyops: "HockeyOps.ai",
     localzon: "Localzon",
@@ -35,7 +37,7 @@ export async function generateMetadata({
     doors: "door$",
   };
 
-  const name = projectNames[params.slug] || params.slug;
+  const name = projectNames[slug] || slug;
 
   return {
     title: `${name} | Better Machine`,
@@ -139,14 +141,15 @@ const projectBlogPosts: Record<string, any[]> = {
   doors: [],
 };
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = projectData[params.slug];
+export default async function ProjectPage({ params }: PageProps) {
+  const { slug } = await params;
+  const project = projectData[slug];
 
   if (!project) {
     notFound();
   }
 
-  const blogPosts = projectBlogPosts[params.slug] || [];
+  const blogPosts = projectBlogPosts[slug] || [];
 
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
