@@ -148,6 +148,22 @@ body {
 .delay-600 { animation-delay: 0.6s; }
 .delay-700 { animation-delay: 0.7s; }
 
+/* Reveal animation classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -160,5 +176,11 @@ body {
   .animate-slide-up {
     opacity: 1 !important;
     transform: none !important;
+  }
+  
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

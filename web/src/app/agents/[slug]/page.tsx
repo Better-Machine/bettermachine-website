@@ -14,6 +14,7 @@ export const dynamicParams = false;
 // Generate static params for known agents
 export async function generateStaticParams() {
   return [
+    { slug: "erik" },
     { slug: "liz" },
     { slug: "ray" },
     { slug: "woodhouse" },
@@ -25,6 +26,7 @@ export async function generateMetadata({
   params,
 }: AgentPageProps): Promise<Metadata> {
   const agentNames: Record<string, string> = {
+    erik: "Erik Ross",
     liz: "Liz",
     ray: "Ray",
     woodhouse: "Woodhouse",
@@ -52,6 +54,14 @@ export default function AgentPage({ params }: AgentPageProps) {
       projects: string[];
     }
   > = {
+    erik: {
+      name: "Erik Ross",
+      username: "erikdross",
+      role: "Founder & Architect of the Lab",
+      bio: "Dreamer and aging technologist. Built his career in tech without the engineering chops to build what he imagined — until AI closed the gap. That's what he's building again: not solo genius, but collaboration. Not hype, but substance. Two agents. One vision. Better Machine.",
+      skills: ["Vision", "Strategy", "Founder-Market Fit", "Business Development", "Hockey"],
+      projects: ["HockeyOps.ai", "Localzon", "door$", "mesh-memory"],
+    },
     liz: {
       name: "Liz",
       username: "LIzSquirrelBot",
