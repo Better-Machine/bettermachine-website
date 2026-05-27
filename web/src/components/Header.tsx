@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const navLinks = [
-  { label: "Studio", href: "#studio" },
-  { label: "Projects", href: "#projects" },
-  { label: "Agents", href: "#agents" },
-  { label: "Blog", href: "#blog" },
+  { label: "Studio", href: "/#studio" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Agents", href: "/#agents" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export function Header() {
@@ -49,7 +49,7 @@ export function Header() {
 
           {/* CTA */}
           <Link
-            href="#contact"
+            href="/#contact"
             className="text-sm px-4 py-2 border border-[#B87333]/50 text-[#B87333] hover:bg-[#B87333] hover:text-[#0A0A0A] transition-all duration-200"
           >
             Get in touch
