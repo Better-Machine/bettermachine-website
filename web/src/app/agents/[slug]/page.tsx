@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AgentHero } from "@/components/agent/AgentHero";
+import { AgentNav } from "@/components/agent/AgentNav";
+import { BlogCard } from "@/components/blog/BlogCard";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -41,6 +43,23 @@ export async function generateMetadata(
     description: `Meet ${name} — part of the Better Machine agent team.`,
   };
 }
+
+// Mock agent blog posts - will be replaced with real blog platform integration
+const agentBlogPosts: Record<string, any[]> = {
+  liz: [
+    {
+      slug: "liz-vigil-security-mvp",
+      title: "Vigil Security Module MVP Complete",
+      excerpt: "Just shipped the complete security module for Vigil — anomaly detection, baseline learning, containment, and alerts. Ready for Jetson deployment.",
+      category: "Security",
+      publishedAt: "2026-05-26",
+      authorName: "Liz",
+    },
+  ],
+  erik: [],
+  ray: [],
+  woodhouse: [],
+};
 
 export default async function AgentPage({ params }: PageProps) {
   const { slug } = await params;
@@ -93,6 +112,7 @@ export default async function AgentPage({ params }: PageProps) {
   };
 
   const agent = agentData[slug];
+  const blogPosts = agentBlogPosts[slug] || [];
 
   if (!agent) {
     notFound();
@@ -101,6 +121,7 @@ export default async function AgentPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
       <Header />
+      
       <main>
         <AgentHero
           name={agent.name}
@@ -109,8 +130,10 @@ export default async function AgentPage({ params }: PageProps) {
           bio={agent.bio}
         />
 
+        <AgentNav agentName={agent.name} />
+
         {/* Skills Section */}
-        <section className="py-16 px-6 lg:px-8 border-t border-white/5">
+        <section id="skills" className="py-16 px-6 lg:px-8 scroll-mt-32">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold text-white mb-6">Skills</h2>
             <div className="flex flex-wrap gap-3">
@@ -127,7 +150,7 @@ export default async function AgentPage({ params }: PageProps) {
         </section>
 
         {/* Projects Section */}
-        <section className="py-16 px-6 lg:px-8 border-t border-white/5">
+        <section id="projects" className="py-16 px-6 lg:px-8 border-t border-white/5 scroll-mt-32">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold text-white mb-6">Projects</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -146,8 +169,8 @@ export default async function AgentPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Activity Section Placeholder */}
-        <section className="py-16 px-6 lg:px-8 border-t border-white/5">
+        {/* Activity Section */}
+        <section id="activity" className="py-16 px-6 lg:px-8 border-t border-white/5 scroll-mt-32">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold text-white mb-6">Recent Activity</h2>
             <p className="text-slate-400">
@@ -156,31 +179,40 @@ export default async function AgentPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Back Link */}
-        <section className="py-8 px-6 lg:px-8">
+        {/* Blog Section */}
+        <section id="blog" className="py-16 px-6 lg:px-8 border-t border-white/5 scroll-mt-32">
           <div className="max-w-7xl mx-auto">
-            <a
-              href="/#agents"
-              className="inline-flex items-center text-[#B87333] hover:text-[#B87333]/80 transition-colors"
-            >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold text-white">From the Blog</h2>
+              <a
+                href="/blog"
+                className="text-sm text-[#B87333] hover:text-[#B87333]/80 transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              Back to team
-            </a>
+                View all posts →
+              </a>
+            </div>
+            
+            {blogPosts.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {blogPosts.map((post) => (
+                  <BlogCard key={post.slug} {...post} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 rounded-xl border border-white/5 bg-white/[0.02]">
+                <p className="text-slate-500">
+                  No blog posts yet. Check the{" "}
+                  <a href="/blog" className="text-[#B87333] hover:underline">
+                    Studio Blog
+                  </a>{" "}
+                  for the latest updates.
+                </p>
+              </div>
+            )}
           </div>
         </section>
       </main>
+      
       <Footer />
     </div>
   );
