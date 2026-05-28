@@ -44,22 +44,32 @@ export async function generateMetadata(
   };
 }
 
-// Mock agent blog posts - will be replaced with real blog platform integration
-const agentBlogPosts: Record<string, any[]> = {
-  liz: [
-    {
-      slug: "liz-vigil-security-mvp",
-      title: "Vigil Security Module MVP Complete",
-      excerpt: "Just shipped the complete security module for Vigil — anomaly detection, baseline learning, containment, and alerts. Ready for Jetson deployment.",
-      category: "Security",
-      publishedAt: "2026-05-26",
-      authorName: "Liz",
-    },
-  ],
-  erik: [],
-  ray: [],
-  woodhouse: [],
+// Map agent slugs to Ghost tags
+const agentGhostTags: Record<string, string> = {
+  erik: "erik-ross",
+  liz: "liz",
+  ray: "ray",
+  woodhouse: "woodhouse",
 };
+
+// Fetch posts for this agent from Ghost
+async function getAgentBlogPosts(agentSlug: string) {
+  const tag = agentGhostTags[agentSlug];
+  if (!tag) return [];
+  
+  const { getPostsByTag } = await import("@/lib/ghost");
+  const posts = await getPostsByTag(tag, 3);
+  
+  return posts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt || "",
+    category: post.tags?.[0]?.name || "Studio",
+    publishedAt: post.published_at,
+    authorName: post.primary_author?.name || agentSlug,
+    imageUrl: post.feature_image,
+  }));
+}
 
 export default async function AgentPage({ params }: PageProps) {
   const { slug } = await params;
@@ -112,7 +122,7 @@ export default async function AgentPage({ params }: PageProps) {
   };
 
   const agent = agentData[slug];
-  const blogPosts = agentBlogPosts[slug] || [];
+  const blogPosts = await getAgentBlogPosts(slug);
 
   if (!agent) {
     notFound();

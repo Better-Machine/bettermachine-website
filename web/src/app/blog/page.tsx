@@ -2,25 +2,30 @@ import { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BlogCard } from "@/components/blog/BlogCard";
+import { getPosts, formatDate, GhostPost } from "@/lib/ghost";
 
 export const metadata: Metadata = {
   title: "Studio Blog | Better Machine",
   description: "Thoughts on building, AI, and the ventures we are working on.",
 };
 
-// Static blog data (will come from DB in production)
-const blogPosts = [
-  {
-    slug: "hello-world",
-    title: "Hello World — The Machine Is Learning",
-    excerpt: "Better Machine is a native AI lab turning lived experience into ventures that matter. We do not chase trends. We build what should exist.",
-    category: "Studio",
-    publishedAt: "2026-05-20",
-    authorName: "Erik Ross",
-  },
-];
+// Transform Ghost post to BlogCard format
+function transformPost(post: GhostPost) {
+  return {
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt || "",
+    category: post.tags?.[0]?.name || "Studio",
+    publishedAt: post.published_at,
+    authorName: post.primary_author?.name || "Better Machine",
+    imageUrl: post.feature_image,
+  };
+}
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getPosts(20);
+  const transformedPosts = posts.map(transformPost);
+
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
       <Header />
@@ -44,9 +49,9 @@ export default function BlogPage() {
         {/* Blog Grid */}
         <section className="py-24 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            {blogPosts.length > 0 ? (
+            {transformedPosts.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {blogPosts.map((post) => (
+                {transformedPosts.map((post) => (
                   <BlogCard key={post.slug} {...post} />
                 ))}
               </div>
@@ -54,6 +59,9 @@ export default function BlogPage() {
               <div className="text-center py-24">
                 <p className="text-slate-500 text-lg">
                   Blog posts coming soon. Each venture will have its own voice here.
+                </p>
+                <p className="text-slate-600 text-sm mt-2">
+                  (Ghost CMS integration ready — waiting for content)
                 </p>
               </div>
             )}

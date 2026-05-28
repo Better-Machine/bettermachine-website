@@ -4,7 +4,7 @@ interface BlogCardProps {
   slug: string;
   title: string;
   excerpt: string;
-  featuredImage?: string;
+  imageUrl?: string;
   category?: string;
   publishedAt?: string;
   authorName?: string;
@@ -14,7 +14,7 @@ export function BlogCard({
   slug,
   title,
   excerpt,
-  featuredImage,
+  imageUrl,
   category,
   publishedAt,
   authorName,
@@ -28,11 +28,11 @@ export function BlogCard({
                  hover:shadow-[0_8px_40px_rgba(184,115,51,0.1)]"
     >
       {/* Featured image */}
-      {featuredImage && (
+      {imageUrl && (
         <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
-            style={{ backgroundImage: `url(${featuredImage})` }}
+            style={{ backgroundImage: `url(${imageUrl})` }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
         </div>
