@@ -78,6 +78,7 @@ const projectData: Record<
     description: "Ecommerce, reimagined. No-fee platform for independent stores with consolidated logistics.",
     status: "Research",
     overview: "Localzon is building the infrastructure for local commerce — connecting independent retailers with customers through a unified platform that respects margins and simplifies logistics.",
+    // githubUrl: "https://github.com/Better-Machine/localzon", // Private repo - no button shown
     team: ["Erik Ross"],
     metrics: [
       { label: "Launch City", value: "Denver, CO" },
@@ -103,6 +104,7 @@ const projectData: Record<
     description: "Detect and analyze Bluetooth Low Energy devices for security auditing and research.",
     status: "MVP",
     overview: "CleanSL8 provides BLE device detection and analysis for security professionals. Built for real-world auditing scenarios with mobile-first architecture.",
+    // githubUrl: "https://github.com/Better-Machine/cleansl8", // Private repo - no button shown
     team: ["Christian", "Erik Ross"],
     metrics: [
       { label: "Platform", value: "iOS / Android" },
@@ -115,6 +117,7 @@ const projectData: Record<
     description: "The music industry is broken. door$ is what happens when a recovering musician decides to fix it.",
     status: "Concept",
     overview: "door$ enables musicians to monetize directly from their audience — no labels, no middlemen, no predatory contracts. Just fans supporting the artists they love.",
+    // githubUrl: "https://github.com/Better-Machine/doors", // Private repo - no button shown
     team: ["Erik Ross"],
     metrics: [
       { label: "Target", value: "Indie Artists" },
