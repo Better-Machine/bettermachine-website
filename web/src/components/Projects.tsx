@@ -1,68 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef } from "react";
-
-const projects = [
-  {
-    slug: "hockeyops",
-    name: "HockeyOps.ai",
-    tagline: "AI platform for NHL front offices",
-    status: "Building",
-    description: "An AI platform for NHL front offices — player evaluation, scouting, ops automation. Built by someone who plays the game, not just watches it. Co-founded with Felix D. Ross, because the best teams are built by people who know the ice.",
-    tags: ["Sports", "AI", "Analytics"],
-    gradient: "from-copper/20 to-copper-light/10",
-  },
-  {
-    slug: "localzon",
-    name: "Localzon",
-    tagline: "Democratized local commerce",
-    status: "Research",
-    description: "Ecommerce, reimagined. Built by someone who got his start in online retail and knows where the bodies are buried. No-fee platform for independent stores with consolidated logistics.",
-    tags: ["Commerce", "Logistics", "Local"],
-    gradient: "from-copper/10 to-silver/10",
-  },
-  {
-    slug: "mesh-memory",
-    name: "mesh-memory",
-    tagline: "Memory infrastructure for AI agents",
-    status: "Live",
-    description: "Multi-agent memory layer with shared knowledge graphs and secure collaboration protocols. The memory system powering Ray, Liz, and Woodhouse.",
-    tags: ["AI", "Infrastructure", "Open Source"],
-    gradient: "from-charcoal to-void",
-  },
-  {
-    slug: "cleansl8",
-    name: "CleanSL8",
-    tagline: "BLE security for the real world",
-    status: "MVP",
-    description: "Detect and analyze Bluetooth Low Energy devices for security auditing and research.",
-    tags: ["Security", "IoT", "Hardware"],
-    gradient: "from-copper/30 to-void",
-  },
-  {
-    slug: "doors",
-    name: "door$",
-    tagline: "Direct monetization for musicians",
-    status: "Concept",
-    description: "The music industry is broken. We know because we've been in it. door$ is what happens when a recovering musician decides to fix the thing that nearly broke him.",
-    tags: ["Music", "Creator Economy", "Direct"],
-    gradient: "from-copper-light/20 to-copper/10",
-  },
-];
-
-const statusConfig: Record<string, { bg: string; text: string; dot: string }> = {
-  Building: { bg: "bg-copper/20", text: "text-copper", dot: "bg-copper" },
-  Research: { bg: "bg-silver/20", text: "text-silver", dot: "bg-silver" },
-  Live: { bg: "bg-green-500/20", text: "text-green-400", dot: "bg-green-400" },
-  MVP: { bg: "bg-yellow-500/20", text: "text-yellow-400", dot: "bg-yellow-400" },
-  Concept: { bg: "bg-purple-500/20", text: "text-purple-400", dot: "bg-purple-400" },
-};
+import { useEffect, useRef, useState } from "react";
+import { projects, statusConfig, type Project } from "@/data/projects";
+import { ProjectDetail } from "@/components/ProjectDetail";
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
 
+  const selected: Project | null =
+    projects.find((p) => p.slug === selectedSlug) ?? null;
+
+  // Scroll detail panel into view when a card is selected
+  useEffect(() => {
+    if (selectedSlug && detailRef.current) {
+      // small delay so the panel renders before we scroll
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  }, [selectedSlug]);
+
+  // Reveal-on-scroll observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -105,7 +66,7 @@ export function Projects() {
           style={{
             backgroundImage: `linear-gradient(rgba(184, 115, 51, 0.1) 1px, transparent 1px),
               linear-gradient(90deg, rgba(184, 115, 51, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '120px 120px'
+            backgroundSize: "120px 120px",
           }}
         />
       </div>
@@ -119,7 +80,7 @@ export function Projects() {
             </span>
             <div className="mt-4 w-12 h-px bg-copper/40" />
             <h2 className="text-display-2 font-medium mt-6 text-snow">
-              What We're Building
+              What We&apos;re Building
             </h2>
           </div>
           <p className="text-silver max-w-md mt-8 md:mt-0 md:text-right">
@@ -132,14 +93,21 @@ export function Projects() {
         <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, index) => {
             const status = statusConfig[project.status];
+            const isSelected = selectedSlug === project.slug;
             return (
-              <Link
+              <button
                 key={project.name}
-                href={`/projects/${project.slug}`}
+                type="button"
+                onClick={() =>
+                  setSelectedSlug(isSelected ? null : project.slug)
+                }
+                aria-pressed={isSelected}
                 className={`group relative p-8 bg-gradient-to-br ${project.gradient} backdrop-blur-sm 
-                           border border-white/5 hover:border-copper/50 transition-all duration-500 
+                           border ${isSelected ? "border-copper" : "border-white/5 hover:border-copper/50"} 
+                           transition-all duration-500 
                            overflow-hidden rounded-xl hover:shadow-[0_8px_40px_rgba(184,115,51,0.15)]
-                           reveal`}
+                           reveal text-left w-full
+                           ${isSelected ? "shadow-[0_8px_40px_rgba(184,115,51,0.2)]" : ""}`}
               >
                 {/* Animated top border */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-copper to-transparent 
@@ -154,8 +122,14 @@ export function Projects() {
                   {/* Header */}
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${status.bg} ${status.text} mb-4`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${status.dot} ${project.status === "Live" ? "animate-pulse" : ""}`} />
+                      <div
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${status.bg} ${status.text} mb-4`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${status.dot} ${
+                            project.status === "Live" ? "animate-pulse" : ""
+                          }`}
+                        />
                         {project.status}
                       </div>
                       <h3 className="text-2xl font-semibold text-snow group-hover:text-copper transition-colors duration-300">
@@ -169,7 +143,7 @@ export function Projects() {
 
                   {/* Description */}
                   <p className="text-silver/80 text-sm mb-6 leading-relaxed line-clamp-3">
-                    {project.description}
+                    {project.shortDescription}
                   </p>
 
                   {/* Tags */}
@@ -186,11 +160,15 @@ export function Projects() {
                     ))}
                   </div>
 
-                  {/* Learn more link */}
+                  {/* Toggle hint */}
                   <div className="mt-6 flex items-center gap-2 text-copper/70 group-hover:text-copper transition-colors">
-                    <span className="text-sm font-medium">Learn more</span>
+                    <span className="text-sm font-medium">
+                      {isSelected ? "Hide details" : "Learn more"}
+                    </span>
                     <svg
-                      className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+                      className={`w-4 h-4 transform transition-transform ${
+                        isSelected ? "rotate-180" : "group-hover:translate-x-1"
+                      }`}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -199,14 +177,19 @@ export function Projects() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        d="M19 9l-7 7-7-7"
                       />
                     </svg>
                   </div>
                 </div>
-              </Link>
+              </button>
             );
           })}
+        </div>
+
+        {/* Inline detail panel */}
+        <div ref={detailRef}>
+          {selected && <ProjectDetail project={selected} />}
         </div>
 
         {/* CTA */}
@@ -219,8 +202,18 @@ export function Projects() {
                      hover:shadow-glow"
           >
             <span>Get in touch</span>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </a>
         </div>
