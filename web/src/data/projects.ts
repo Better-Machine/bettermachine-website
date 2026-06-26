@@ -118,7 +118,7 @@ export const projects: Project[] = [
       "door$ enables musicians to monetize directly from their audience — no labels, no middlemen, no predatory contracts. Just fans supporting the artists they love.",
     status: "Concept",
     tags: ["Music", "Creator Economy", "Direct"],
-    // githubUrl: private — no public button
+    githubUrl: "https://github.com/Better-Machine/door-s",
     team: ["Erik Ross"],
     metrics: [
       { label: "Target", value: "Indie Artists" },
