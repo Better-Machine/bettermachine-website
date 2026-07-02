@@ -28,6 +28,15 @@ const agents = [
     emoji: "🧠",
     color: "from-copper-light/30 to-copper/10",
   },
+  {
+    slug: "eames",
+    name: "Eames",
+    role: "Fleet Maintenance & BMHS Pipeline",
+    description: "Eames is the agent that watches the fleet — auditing code, gating PRs, and routing specs to the right specialist. Named for the design principle: solve the problem at the root, not the surface. Still coming into his own — currently in build-out, will be available for hire soon.",
+    emoji: "🔧",
+    color: "from-charcoal to-copper/10",
+    comingSoon: true,
+  },
 ];
 
 export function Agents() {
@@ -84,16 +93,18 @@ export function Agents() {
         </div>
 
         {/* Agents grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {agents.map((agent, index) => (
             <Link
               key={agent.name}
-              href={`/agents/${agent.slug}`}
-              className={`group relative p-8 bg-gradient-to-br ${agent.color} 
+              href={agent.comingSoon ? "#" : `/agents/${agent.slug}`}
+              aria-disabled={agent.comingSoon}
+              className={`group relative p-8 bg-gradient-to-br ${agent.color}
                          border border-white/5 rounded-xl
                          hover:border-copper/50 transition-all duration-500
                          hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]
-                         reveal`}
+                         reveal
+                         ${agent.comingSoon ? "opacity-70 cursor-not-allowed hover:border-white/5 hover:shadow-none" : ""}`}
             >
               {/* Animated top border */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-copper to-transparent 
@@ -119,6 +130,11 @@ export function Agents() {
 
               <h3 className="text-2xl font-semibold text-snow mb-2 group-hover:text-copper transition-colors duration-300">
                 {agent.name}
+                {agent.comingSoon && (
+                  <span className="ml-2 align-middle px-2 py-0.5 bg-copper/20 text-copper text-[10px] font-semibold rounded-full tracking-wider uppercase">
+                    Coming Soon
+                  </span>
+                )}
               </h3>
               <p className="text-copper text-sm font-medium mb-4 tracking-wide">{agent.role}</p>
               <p className="text-silver/80 text-sm leading-relaxed">{agent.description}</p>

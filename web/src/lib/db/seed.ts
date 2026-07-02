@@ -81,6 +81,36 @@ async function seed() {
       techStack: JSON.stringify(["Node.js", "Blockchain", "Streaming APIs", "Smart Contracts"]),
       publishedAt: new Date("2026-04-01"),
     },
+    {
+      slug: "gtc-tech",
+      name: "GTC Tech",
+      tagline: "Hardware acceleration for additive manufacturing",
+      description: "GTC Tech is in active POC — building the tooling layer that takes 3D printing from prototype to production line. Performance, repeatability, and a workflow that operators actually want to use.",
+      status: "published",
+      overview: "GTC Tech is exploring how software-defined control loops and applied ML can lift additive manufacturing out of the maker-shop and onto the factory floor. Early POC, working with extrusion partners on the calibration and material-handling edges of the problem.",
+      metrics: JSON.stringify({
+        phase: "POC",
+        domain: "Additive Mfg.",
+        formerly: "Barto (renamed June 2026)"
+      }),
+      techStack: JSON.stringify(["Python", "Rust", "ML Control Loops", "Hardware Integration"]),
+      publishedAt: new Date("2026-07-02"),
+    },
+    {
+      slug: "extrusion-supplies",
+      name: "Extrusion Supplies",
+      tagline: "Filament and tooling for serious operators",
+      description: "Web project in active development — a curated storefront and supply service for the people who print every day and know the difference between 'works' and 'works the same way twice.'",
+      status: "published",
+      overview: "Extrusion Supplies pairs with GTC Tech: same material, same calibration discipline, same operator-first mindset — packaged as a focused e-commerce experience.",
+      metrics: JSON.stringify({
+        phase: "In Development",
+        pairsWith: "GTC Tech",
+        model: "Curated supply"
+      }),
+      techStack: JSON.stringify(["Next.js", "Commerce", "Inventory", "Logistics"]),
+      publishedAt: new Date("2026-07-02"),
+    },
   ];
 
   // Seed Agents
@@ -119,6 +149,15 @@ async function seed() {
       avatar: "/agents/woodhouse-avatar.jpg",
       bio: "Research lead investigating agent portability and memory preservation across hardware transitions. The glue that holds the fleet together.",
       skills: JSON.stringify(["Research", "Infrastructure", "Agent Portability", "Image Generation", "macOS"]),
+      isPublished: true,
+    },
+    {
+      username: "eames",
+      name: "Eames",
+      role: "Fleet Maintenance & BMHS Pipeline",
+      avatar: "/agents/eames-avatar.jpg",
+      bio: "Eames is the agent that watches the fleet — auditing code, gating PRs, and routing specs to the right specialist. Named for the design principle: solve the problem at the root, not the surface. Still coming into his own — currently in build-out, will be available for hire soon.",
+      skills: JSON.stringify(["Code Review", "Fleet Maintenance", "BMHS Spec Pipeline", "Carmack/Bellard Lens", "PR Gating"]),
       isPublished: true,
     },
   ];

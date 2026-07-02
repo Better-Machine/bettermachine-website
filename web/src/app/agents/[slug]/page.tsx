@@ -20,6 +20,7 @@ export async function generateStaticParams() {
     { slug: "liz" },
     { slug: "ray" },
     { slug: "woodhouse" },
+    { slug: "eames" },
   ];
 }
 
