@@ -55,6 +55,15 @@ jobs:
         protocol: ftp
         port: 21
         log-level: standard
+
+    - name: Deploy robots.txt
+      # FTP-Deploy-Action filters .txt files; upload separately
+      run: |
+        curl -s --ftp-ssl \
+          --url "ftp://${{ secrets.FTP_SERVER }}/${{ secrets.FTP_USERNAME }}/robots.txt" \
+          --upload-file ./dist/robots.txt \
+          --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
+          || echo "robots.txt FTP deploy failed (non-fatal)"
         
     - name: Notify deployment
       run: |
