@@ -1,5 +1,7 @@
 # Better Machine Website — Complete Build (v0.2)
 
+**Owner:** `liz`
+
 ## Context
 
 The Better Machine website (bettermachine.ai) was deployed with only basic pages (hero, manifesto, projects inline, agents inline, blog placeholder). It was missing core pages and functionality. Erik requested the site be fully scoped and built out.
