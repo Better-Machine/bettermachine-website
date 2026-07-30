@@ -6,6 +6,15 @@ The Better Machine website (bettermachine.ai) was deployed with only basic pages
 
 **Commit:** `0952297` on master. Build passes clean (21 pages, all static except contact API).
 
+## Scope
+
+This is a post-build review and QA pass. The build is already complete and deployed. Eames should review:
+- Code quality and correctness of all new pages and components
+- Proper use of the venture data model and activity feed
+- No scope creep beyond the committed changes
+- All links verified (no dead URLs)
+- Static export compatibility (no server-only features in built output)
+
 ## What Changed (17 files, +1427/-73)
 
 ### New Pages (5)
@@ -60,7 +69,7 @@ The Better Machine website (bettermachine.ai) was deployed with only basic pages
 - `web/src/lib/ghost.ts` — Error handling improvements
 - `web/package.json` + `package-lock.json` — Nodemailer added
 
-## Don't Do
+## Don't-Do List
 
 - Do NOT deploy to production (no SMTP config, no Hostinger credentials configured)
 - Do NOT change Ghost API key (requires env var on deployment host)
