@@ -2,7 +2,7 @@
 // Docs: https://ghost.org/docs/content-api/
 
 const GHOST_URL = process.env.GHOST_URL || "http://192.168.50.32:2368";
-const GHOST_API_KEY = process.env.GHOST_CONTENT_API_KEY || "";
+const GHOST_API_KEY = process.env.GHOST_API_KEY || "";
 
 export interface GhostPost {
   id: string;
@@ -29,7 +29,7 @@ export interface GhostTag {
 // Fetch all published posts
 export async function getPosts(limit: number = 10): Promise<GhostPost[]> {
   if (!GHOST_API_KEY) {
-    console.warn("Ghost API key not configured");
+    console.warn("Ghost API key not configured — blog will be empty");
     return [];
   }
 
@@ -40,7 +40,8 @@ export async function getPosts(limit: number = 10): Promise<GhostPost[]> {
     );
 
     if (!res.ok) {
-      throw new Error(`Ghost API error: ${res.status}`);
+      console.error(`Ghost API error: ${res.status}`);
+      return [];
     }
 
     const data = await res.json();
@@ -64,7 +65,7 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     );
 
     if (!res.ok) {
-      throw new Error(`Ghost API error: ${res.status}`);
+      return null;
     }
 
     const data = await res.json();
@@ -88,7 +89,8 @@ export async function getPostsByTag(tag: string, limit: number = 10): Promise<Gh
     );
 
     if (!res.ok) {
-      throw new Error(`Ghost API error: ${res.status}`);
+      console.error(`Ghost API error fetching tag ${tag}: ${res.status}`);
+      return [];
     }
 
     const data = await res.json();

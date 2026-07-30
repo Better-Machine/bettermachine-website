@@ -4,13 +4,13 @@ import Link from "next/link";
 
 const footerLinks = {
   studio: [
-    { label: "About", href: "#studio" },
-    { label: "Projects", href: "#projects" },
-    { label: "Agents", href: "#agents" },
-    { label: "Blog", href: "#blog" },
+    { label: "About", href: "/about" },
+    { label: "Ventures", href: "/ventures" },
+    { label: "Agents", href: "/agents" },
+    { label: "Blog", href: "/blog" },
   ],
   social: [
-    { label: "LinkedIn", href: "https://linkedin.com" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/erikrosspgh" },
     { label: "GitHub", href: "https://github.com/Better-Machine" },
     { label: "X", href: "https://x.com" },
   ],

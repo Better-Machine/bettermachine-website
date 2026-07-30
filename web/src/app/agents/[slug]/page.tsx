@@ -5,6 +5,12 @@ import { AgentNav } from "@/components/agent/AgentNav";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import {
+  lizActivities,
+  rayActivities,
+  eamesActivities,
+  type ActivityEntry,
+} from "@/lib/activity";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -125,6 +131,14 @@ export default async function AgentPage({ params }: PageProps) {
   const agent = agentData[slug];
   const blogPosts = await getAgentBlogPosts(slug);
 
+  // Map agent slug to activity data
+  const activityMap: Record<string, ActivityEntry[]> = {
+    liz: lizActivities,
+    ray: rayActivities,
+    eames: eamesActivities,
+  };
+  const agentActivities = activityMap[slug] || [];
+
   if (!agent) {
     notFound();
   }
@@ -184,9 +198,41 @@ export default async function AgentPage({ params }: PageProps) {
         <section id="activity" className="py-16 px-6 lg:px-8 border-t border-white/5 scroll-mt-32">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold text-white mb-6">Recent Activity</h2>
-            <p className="text-slate-400">
-              Agent activity feed coming soon. Each agent will maintain their own updates here.
-            </p>
+            {agentActivities.length > 0 ? (
+              <div className="space-y-4">
+                {agentActivities.slice(0, 6).map((a, i) => (
+                  <div key={i} className="p-4 bg-void-plus border border-white/5 rounded-xl">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className={`w-2 h-2 rounded-full ${
+                        a.type === "build" ? "bg-copper" :
+                        a.type === "pipeline" ? "bg-emerald-400" :
+                        a.type === "incident" ? "bg-amber-400" :
+                        a.type === "deployment" ? "bg-blue-400" :
+                        a.type === "research" ? "bg-purple-400" :
+                        "bg-slate-400"
+                      }`} />
+                      <span className="text-xs text-slate-500 font-mono">{a.date}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        a.type === "build" ? "bg-copper/10 text-copper" :
+                        a.type === "pipeline" ? "bg-emerald-400/10 text-emerald-400" :
+                        a.type === "incident" ? "bg-amber-400/10 text-amber-400" :
+                        a.type === "deployment" ? "bg-blue-400/10 text-blue-400" :
+                        a.type === "research" ? "bg-purple-400/10 text-purple-400" :
+                        "bg-slate-400/10 text-slate-400"
+                      }`}>
+                        {a.type}
+                      </span>
+                    </div>
+                    <h3 className="text-white font-medium mb-1">{a.title}</h3>
+                    <p className="text-slate-400 text-sm leading-relaxed">{a.summary}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-400">
+                Activity feed coming soon.
+              </p>
+            )}
           </div>
         </section>
 

@@ -16,17 +16,36 @@ export function ContactForm({ subject, onClose, source }: ContactFormProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
 
-    // For now, just simulate submission
-    // TODO: Replace with actual email service (Resend, SendGrid, etc.)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          subject: subject || undefined,
+        }),
+      });
 
-    setIsSubmitting(false);
-    setSubmitted(true);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to send message. Please try again.");
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Network error. Please try again or email info@bettermachine.ai directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -58,82 +77,64 @@ export function ContactForm({ subject, onClose, source }: ContactFormProps) {
           From: {source}
         </div>
       )}
+      {subject && (
+        <div className="text-sm text-[#B87333]">
+          Subject: {subject}
+        </div>
+      )}
+
+      {error && (
+        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+          {error}
+        </div>
+      )}
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
-          Name
-        </label>
+        <label className="block text-sm text-slate-400 mb-1">Name</label>
         <input
           type="text"
-          id="name"
           required
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="w-full px-4 py-3 bg-white/[0.02] border border-white/10 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-[#B87333] transition-colors"
+          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
+                     focus:border-[#B87333]/50 focus:outline-none transition-colors"
           placeholder="Your name"
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-          Email
-        </label>
+        <label className="block text-sm text-slate-400 mb-1">Email</label>
         <input
           type="email"
-          id="email"
           required
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full px-4 py-3 bg-white/[0.02] border border-white/10 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-[#B87333] transition-colors"
-          placeholder="you@example.com"
+          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
+                     focus:border-[#B87333]/50 focus:outline-none transition-colors"
+          placeholder="your@email.com"
         />
       </div>
 
-      {subject && (
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Subject
-          </label>
-          <input
-            type="text"
-            readOnly
-            value={subject}
-            className="w-full px-4 py-3 bg-white/[0.02] border border-white/10 rounded-lg text-slate-400 cursor-not-allowed"
-          />
-        </div>
-      )}
-
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
-          Message
-        </label>
+        <label className="block text-sm text-slate-400 mb-1">Message</label>
         <textarea
-          id="message"
           required
-          rows={4}
+          rows={5}
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full px-4 py-3 bg-white/[0.02] border border-white/10 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-[#B87333] transition-colors resize-none"
-          placeholder="Tell us about your interest..."
+          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
+                     focus:border-[#B87333]/50 focus:outline-none transition-colors resize-none"
+          placeholder="Tell us about your project or question..."
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full px-6 py-3 bg-[#B87333] hover:bg-[#B87333]/90 disabled:bg-[#B87333]/50 text-black font-medium rounded transition-colors flex items-center justify-center"
+        className="w-full px-6 py-3 bg-[#B87333] text-void font-semibold rounded-lg
+                   hover:bg-[#D4945A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? (
-          <>
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
-            Sending...
-          </>
-        ) : (
-          "Send Message"
-        )}
+        {isSubmitting ? "Sending..." : "Send Message"}
       </button>
     </form>
   );
@@ -168,3 +169,4 @@ interface ContactModalProps {
   subject?: string;
   source?: string;
 }
+

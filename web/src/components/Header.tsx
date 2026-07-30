@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ContactModal } from "./ContactForm";
 
 const navLinks = [
-  { label: "Studio", href: "/#studio" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Agents", href: "/#agents" },
+  { label: "Studio", href: "/" },
+  { label: "Ventures", href: "/ventures" },
+  { label: "Agents", href: "/agents" },
   { label: "Blog", href: "/blog" },
 ];
 
