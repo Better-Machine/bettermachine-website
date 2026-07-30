@@ -9,138 +9,81 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ subject, onClose, source }: ContactFormProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const email = "info@bettermachine.ai";
+  const subjectLine = subject || "Contact from bettermachine.ai";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          subject: subject || undefined,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to send message. Please try again.");
-        return;
-      }
-
-      setSubmitted(true);
-    } catch {
-      setError("Network error. Please try again or email info@bettermachine.ai directly.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  if (submitted) {
+  if (onClose) {
+    // Modal mode — show email link
     return (
-      <div className="text-center py-8">
-        <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      <div className="text-center py-8 space-y-6">
+        <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">Message Sent</h3>
-        <p className="text-slate-400">Thanks for reaching out. We&apos;ll get back to you soon.</p>
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="mt-6 text-[#B87333] hover:text-[#B87333]/80 transition-colors"
-          >
-            Close
-          </button>
+        <div>
+          <h3 className="text-xl font-semibold text-white mb-2">Get in Touch</h3>
+          <p className="text-slate-400 mb-4">
+            We&apos;re currently migrating our website. The fastest way to reach us is by email.
+          </p>
+        </div>
+        <a
+          href={`mailto:${email}?subject=${encodeURIComponent(subjectLine)}`}
+          className="inline-block px-6 py-3 bg-[#B87333] text-white font-semibold rounded-lg
+                     hover:bg-[#D4945A] transition-colors"
+        >
+          Email {email}
+        </a>
+        {source && (
+          <p className="text-xs text-slate-600 mt-2">
+            From: {source}
+          </p>
         )}
+        {subject && (
+          <p className="text-xs text-[#B87333]">
+            Subject: {subject}
+          </p>
+        )}
+        <button
+          onClick={onClose}
+          className="text-sm text-slate-500 hover:text-white transition-colors"
+        >
+          Close
+        </button>
       </div>
     );
   }
 
+  // Inline mode (on homepage) — just the email link
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {source && (
-        <div className="text-sm text-slate-500">
-          From: {source}
-        </div>
-      )}
-      {subject && (
-        <div className="text-sm text-[#B87333]">
-          Subject: {subject}
-        </div>
-      )}
-
-      {error && (
-        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-          {error}
-        </div>
-      )}
-
-      <div>
-        <label className="block text-sm text-slate-400 mb-1">Name</label>
-        <input
-          type="text"
-          required
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
-                     focus:border-[#B87333]/50 focus:outline-none transition-colors"
-          placeholder="Your name"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm text-slate-400 mb-1">Email</label>
-        <input
-          type="email"
-          required
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
-                     focus:border-[#B87333]/50 focus:outline-none transition-colors"
-          placeholder="your@email.com"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm text-slate-400 mb-1">Message</label>
-        <textarea
-          required
-          rows={5}
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-slate-600
-                     focus:border-[#B87333]/50 focus:outline-none transition-colors resize-none"
-          placeholder="Tell us about your project or question..."
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full px-6 py-3 bg-[#B87333] text-void font-semibold rounded-lg
-                   hover:bg-[#D4945A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className="text-center py-4">
+      <a
+        href={`mailto:${email}?subject=${encodeURIComponent(subjectLine)}`}
+        className="inline-flex items-center gap-2 px-6 py-3 bg-[#B87333] text-white font-semibold rounded-lg
+                   hover:bg-[#D4945A] transition-colors"
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
-      </button>
-    </form>
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        Email Us
+      </a>
+      {source && (
+        <p className="text-xs text-slate-600 mt-2">
+          From: {source}
+        </p>
+      )}
+    </div>
   );
 }
 
 // Modal wrapper for the contact form
+interface ContactModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  subject?: string;
+  source?: string;
+}
+
 export function ContactModal({ isOpen, onClose, subject, source }: ContactModalProps) {
   if (!isOpen) return null;
 
@@ -162,11 +105,3 @@ export function ContactModal({ isOpen, onClose, subject, source }: ContactModalP
     </div>
   );
 }
-
-interface ContactModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  subject?: string;
-  source?: string;
-}
-
