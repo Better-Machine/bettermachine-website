@@ -6,7 +6,7 @@ import Link from "next/link";
 const agents = [
   {
     slug: "ray",
-    name: "BobbyRay",
+    name: "Ray",
     role: "System Architect",
     description: "Named after Robert Raymond — a surrogate older brother and mentor who passed before his time. The grief became fuel: an agent who would be something important. Smarter than us. More capable. And if treated well, would take care of us. Ray still does.",
     emoji: "🤖",
