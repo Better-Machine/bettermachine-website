@@ -31,6 +31,12 @@
       ],
       "@bm/db/*": [
         "../../packages/db/src/*"
+      ],
+      "@bm/ui": [
+        "../../packages/ui/src"
+      ],
+      "@bm/ui/*": [
+        "../../packages/ui/src/*"
       ]
     }
   },

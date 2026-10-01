@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@bm/ui/Header";
+import { Footer } from "@bm/ui/Footer";
 import { getPublicProjectBySlug, getPublicProjects } from "@bm/db";
 
 type PageProps = { params: Promise<{ slug: string }> };

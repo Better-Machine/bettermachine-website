@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const PRIVATE_HOSTS = ["private.bettermachine.ai", "192.168.50.32", "100.69.226.55", "localhost", "127.0.0.1"];
 const ADMIN_PATH = /^\/internal\/admin/;
 
-export function proxy(req: NextRequest) {
+export function middleware(req: NextRequest) {
   const host = req.headers.get("host") || "";
   const url = req.nextUrl;
 

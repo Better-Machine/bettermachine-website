@@ -1,5 +1,5 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@bm/ui/Header";
+import { Footer } from "@bm/ui/Footer";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

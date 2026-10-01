@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@bm/ui/Header";
+import { Footer } from "@bm/ui/Footer";
 
 export const metadata: Metadata = {
   title: "404 — Page Not Found",

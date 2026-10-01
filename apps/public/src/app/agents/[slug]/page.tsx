@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@bm/ui/Header";
+import { Footer } from "@bm/ui/Footer";
 import { getAgentByUsername, getAllProjects, getPublishedAgents } from "@bm/db";
 
 const AGENT_META: Record<string, { emoji: string; accent: string }> = {
