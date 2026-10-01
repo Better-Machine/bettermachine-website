@@ -20,3 +20,11 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+apps/public/out/
+apps/public/data.sqlite
+apps/public/next-env.d.ts
+apps/public/tsconfig.tsbuildinfo
+apps/internal/out/
+apps/internal/data.sqlite
+apps/internal/next-env.d.ts
+apps/internal/tsconfig.tsbuildinfo
