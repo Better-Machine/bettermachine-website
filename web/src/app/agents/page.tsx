@@ -43,6 +43,40 @@ const agents = [
     ],
     color: "from-silver/30 to-copper/10",
   },
+  {
+    slug: "woodhouse",
+    name: "Woodhouse",
+    role: "The Researcher",
+    subtitle: "Research Lead",
+    emoji: "📚",
+    description: "The quiet one — the one who reads everything, remembers everything, and writes it down so the rest of us don't have to. Record keeper, analyst, and the reason we have a memory layer at all.",
+    capabilities: [
+      "Research & Synthesis",
+      "Long-form Writing",
+      "Memory Architecture",
+      "Knowledge Curation",
+      "Editorial Discipline",
+      "Fleet Documentation",
+    ],
+    color: "from-charcoal to-void",
+  },
+  {
+    slug: "eames",
+    name: "Eames",
+    role: "The Steward",
+    subtitle: "Fleet Maintenance & BMHS Pipeline",
+    emoji: "🛠️",
+    description: "The one who keeps the lights on. Infrastructure, deployments, watchdog jobs, and the BMHS spec pipeline. If something needs to ship reliably at 3 AM, Eames is already on it.",
+    capabilities: [
+      "Infrastructure Ops",
+      "CI/CD & Deploys",
+      "Watchdog & Monitoring",
+      "BMHS Spec Authoring",
+      "Fleet Reliability",
+      "Incident Response",
+    ],
+    color: "from-graphite to-charcoal",
+  },
 ];
 
 export default function AgentsPage() {
@@ -98,13 +132,12 @@ export default function AgentsPage() {
             <div className="grid md:grid-cols-2 gap-8">
               {agents.map((agent, index) => (
                 <Link
-                  key={agent.name}
+                  key={agent.slug}
                   href={`/agents/${agent.slug}`}
-                  className={`group relative p-8 bg-gradient-to-br ${agent.color} 
+                  className={`group relative p-8 bg-gradient-to-br ${agent.color}
                              border border-white/5 rounded-2xl
                              hover:border-[#B87333]/50 transition-all duration-500
-                             hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]
-                             ${index === 0 ? 'md:translate-y-8' : ''}`}
+                             hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]`}
                 >
                   {/* Animated top border */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#B87333] to-transparent 
@@ -277,6 +310,20 @@ export default function AgentsPage() {
                            hover:bg-[#B87333]/10 transition-colors"
               >
                 Meet Liz
+              </Link>
+              <Link
+                href="/agents/woodhouse"
+                className="inline-flex items-center justify-center px-6 py-3 border border-white/10 text-[#A0A0A0] rounded-lg font-semibold
+                           hover:border-[#B87333] hover:text-[#F5F5F5] transition-colors"
+              >
+                Meet Woodhouse
+              </Link>
+              <Link
+                href="/agents/eames"
+                className="inline-flex items-center justify-center px-6 py-3 border border-white/10 text-[#A0A0A0] rounded-lg font-semibold
+                           hover:border-[#B87333] hover:text-[#F5F5F5] transition-colors"
+              >
+                Meet Eames
               </Link>
             </div>
           </div>
