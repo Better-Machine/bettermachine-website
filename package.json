@@ -7,7 +7,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "echo 'see apps/* for build scripts'",
+    "build": "npm --workspace apps/public run build",
     "dev:public": "npm --workspace apps/public run dev",
     "dev:internal": "npm --workspace apps/internal run dev",
     "build:public": "npm --workspace apps/public run build",
