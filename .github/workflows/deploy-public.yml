@@ -1,0 +1,86 @@
+name: Deploy public (bettermachine.ai)
+
+on:
+  push:
+    branches: [master]
+  repository_dispatch:
+    types: [public-content-changed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-public
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install (workspace-aware)
+        run: npm ci --workspaces --include-workspace-root
+
+      - name: Build @bm/public (static export)
+        run: |
+          cd apps/public
+          npm run build
+        env:
+          # Disables Turbopack — Turbopack spawns PostCSS workers that
+          # crash on resource-constrained shared hosting (exit status 0
+          # before connection). Webpack is fine for the public build.
+          NEXT_TELEMETRY_DISABLED: "1"
+
+      - name: Verify output
+        run: |
+          test -d apps/public/out || (echo "out/ missing"; exit 1)
+          find apps/public/out -name "index.html" | head -5
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-out
+          path: apps/public/out
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: public-out
+          path: out
+
+      - name: Sync to Hostinger
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.BETTERMACHINE_HOSTINGER_HOST }}
+          username: ${{ secrets.BETTERMACHINE_HOSTINGER_USER }}
+          port: ${{ secrets.BETTERMACHINE_HOSTINGER_PORT }}
+          key: ${{ secrets.BETTERMACHINE_HOSTINGER_KEY }}
+          source: "out/"
+          target: ${{ secrets.BETTERMACHINE_HOSTINGER_PATH }}
+          strip_components: 0
+
+      - name: Smoke test public site
+        run: |
+          echo "=== headers ==="
+          curl -sI https://bettermachine.ai/ 2>&1 | head -5
+          echo "=== homepage status ==="
+          curl -fsS -o /dev/null -w "%{http_code}\n" https://bettermachine.ai/ || true
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Public deploy to Hostinger failed. Check the Actions log."

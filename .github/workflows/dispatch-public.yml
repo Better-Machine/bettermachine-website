@@ -1,0 +1,10 @@
+name: Dispatch public rebuild from internal app
+
+on:
+  repository_dispatch:
+    types: [public-content-changed]
+
+# This file is intentionally minimal. The actual rebuild runs in
+# deploy-public.yml which already listens for the same event type.
+# Keeping this as a no-op stub so the event type is registered and so
+# the routing is auditable in one place.

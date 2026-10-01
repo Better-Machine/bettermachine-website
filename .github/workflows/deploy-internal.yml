@@ -1,4 +1,4 @@
-name: Deploy bettermachine.ai
+name: Deploy internal (private.bettermachine.ai)
 
 on:
   push:
@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy
+  group: deploy-internal
   cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Deploy via SSH
@@ -21,35 +21,50 @@ jobs:
           host: ${{ secrets.BETTERMACHINE_DEPLOY_HOST }}
           username: ${{ secrets.BETTERMACHINE_DEPLOY_USER }}
           key: ${{ secrets.BETTERMACHINE_DEPLOY_KEY }}
+          command_timeout: 10m
           script: |
             set -euo pipefail
 
             DEPLOY_PATH="${{ secrets.BETTERMACHINE_DEPLOY_PATH }}"
             PM2_NAME="${{ secrets.BETTERMACHINE_PM2_NAME }}"
 
+            echo "=== sanity ==="
+            pwd
+            whoami
+
             cd "$DEPLOY_PATH"
 
-            echo "=== git pull ==="
-            git pull origin master
-
-            echo "=== run DB migration ==="
-            cd web
-            node migrate.cjs
+            echo "=== git pull (master) ==="
+            git fetch origin
+            git reset --hard origin/master
 
             echo "=== write .env.local (if missing) ==="
-            if [ ! -f .env.local ]; then
-              cat > .env.local <<'ENVEOF'
+            if [ ! -f apps/internal/.env.local ]; then
+              cat > apps/internal/.env.local <<'ENVEOF'
             ADMIN_BASIC_AUTH_USER=${{ secrets.ADMIN_BASIC_AUTH_USER }}
             ADMIN_BASIC_AUTH_PASS=${{ secrets.ADMIN_BASIC_AUTH_PASS }}
+            GITHUB_DISPATCH_TOKEN=${{ secrets.BETTERMACHINE_DISPATCH_TOKEN }}
             ENVEOF
-              chmod 600 .env.local
+              chmod 600 apps/internal/.env.local
             else
-              echo "(.env.local already exists, not overwriting)"
+              echo "(apps/internal/.env.local already exists, not overwriting)"
             fi
 
+            echo "=== run DB migration ==="
+            cd apps/internal
+            node migrate.cjs
+
+            echo "=== install (workspace-aware) ==="
+            cd ../..
+            npm ci --workspaces --include-workspace-root
+
+            echo "=== build @bm/internal ==="
+            cd apps/internal
+            npm run build
+
             echo "=== restart process ==="
-            if pm2 list | grep -q "$PM2_NAME"; then
-              pm2 restart "$PM2_NAME"
+            if pm2 list 2>/dev/null | grep -q "$PM2_NAME"; then
+              pm2 restart "$PM2_NAME" --update-env
             elif systemctl list-units --type=service --no-legend | grep -q "$PM2_NAME"; then
               sudo systemctl restart "$PM2_NAME"
             else
@@ -59,13 +74,13 @@ jobs:
 
             echo "=== smoke test ==="
             sleep 5
-            curl -fsS -o /dev/null -w "homepage: %{http_code}\n" http://localhost:3000/ || true
+            curl -fsS -o /dev/null -w "pmo:        %{http_code}\n" http://localhost:3000/pmo || true
             curl -sI http://localhost:3000/internal/admin 2>&1 | head -1
-            curl -sI http://localhost:3000/pmo 2>&1 | head -1
+            curl -fsS -o /dev/null -w "api/audit:  %{http_code}\n" http://localhost:3000/api/audit || true
 
             echo "=== deploy complete ==="
 
       - name: Notify on failure
         if: failure()
         run: |
-          echo "::error::Deploy to bettermachine-host failed. Check the Actions log."
+          echo "::error::Internal deploy to bettermachine-host failed. Check the Actions log."

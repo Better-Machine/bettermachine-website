@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAgentByUsername, updateAgent } from "@bm/db";
+import { getAgentByUsername, updateAgent, dispatchPublicRebuild } from "@bm/db";
 
 function getActor(req: NextRequest): string {
   const auth = req.headers.get("authorization") || "";
@@ -46,6 +46,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   try {
     const updated = await updateAgent(existing.id, patch, getActor(req), req.headers.get("x-forwarded-for") || undefined);
+    // Public content changed — kick off a public-site rebuild (fire-and-forget).
+    dispatchPublicRebuild("agent", existing.id);
     return NextResponse.json(updated);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 400 });

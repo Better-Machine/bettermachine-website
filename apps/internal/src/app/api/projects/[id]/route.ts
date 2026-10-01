@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjectById, updateProject } from "@bm/db";
+import { getProjectById, updateProject, dispatchPublicRebuild } from "@bm/db";
 
 function getActor(req: NextRequest): string {
   // Basic auth user from header (we already validated in proxy.ts)
@@ -44,6 +44,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   try {
     const updated = await updateProject(parseInt(id), patch, getActor(req), req.headers.get("x-forwarded-for") || undefined);
+    // Public content changed — kick off a public-site rebuild (fire-and-forget).
+    dispatchPublicRebuild("project", parseInt(id));
     return NextResponse.json(updated);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 400 });
