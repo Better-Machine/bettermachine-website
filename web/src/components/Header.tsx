@@ -5,10 +5,10 @@ import Link from "next/link";
 import { ContactModal } from "./ContactForm";
 
 const navLinks = [
-  { label: "Studio", href: "/" },
-  { label: "Ventures", href: "/ventures" },
-  { label: "Agents", href: "/agents" },
-  { label: "Blog", href: "/blog" },
+  { label: "Studio", href: "/#studio" },
+  { label: "Ventures", href: "/#projects" },
+  { label: "Agents", href: "/#agents" },
+  { label: "Blog", href: "/#blog" },
 ];
 
 export function Header() {
