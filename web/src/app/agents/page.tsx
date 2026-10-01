@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const agents = [
   {
     slug: "ray",
-    name: "BobbyRay",
+    name: "Ray",
     role: "The Builder",
     subtitle: "System Architect",
     emoji: "🤖",
