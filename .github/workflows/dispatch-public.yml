@@ -1,0 +1,26 @@
+name: Public-content webhook receiver
+
+on:
+  repository_dispatch:
+    types: [public-content-changed]
+
+# Standalone receiver for the public-content-changed event emitted by
+# the internal app after admin writes (see packages/db/src/dispatch.ts).
+#
+# As of Phase 4, Hostinger builds and deploys the public site directly
+# from the master branch (build: npm run build:public, output:
+# apps/public/out), so this workflow does not trigger a rebuild.
+#
+# It exists so the event type is registered on the repo, providing an
+# audit point and a place to re-add an automated rebuild if the
+# Hostinger build path is replaced in the future.
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log the dispatch
+        run: |
+          echo "Received public-content-changed"
+          echo "client_payload: ${{ toJSON(github.event.client_payload) }}"
+          echo "(no rebuild — Hostinger builds the public site directly)"
