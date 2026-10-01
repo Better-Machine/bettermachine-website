@@ -38,71 +38,112 @@ export interface AgentRow {
   updatedAt: Date;
 }
 
+// Helper: return empty arrays when DB is unavailable (e.g. public app
+// running on Hostinger where the DB file doesn't exist).
+function guard<T>(fn: () => T, fallback?: T): T {
+  if (!db) return fallback as T;
+  try {
+    return fn();
+  } catch {
+    return fallback as T;
+  }
+}
+
 // Public — only isPublic projects
 export async function getPublicProjects(): Promise<ProjectRow[]> {
-  return db
-    .select()
-    .from(projects)
-    .where(eq(projects.isPublic, true))
-    .orderBy(desc(projects.publishedAt))
-    .all() as ProjectRow[];
+  return guard(
+    () =>
+      db!.select()
+        .from(projects)
+        .where(eq(projects.isPublic, true))
+        .orderBy(desc(projects.publishedAt))
+        .all() as ProjectRow[],
+    []
+  );
 }
 
 export async function getPublicProjectBySlug(slug: string): Promise<ProjectRow | null> {
-  const rows = db
-    .select()
-    .from(projects)
-    .where(sql`${projects.slug} = ${slug} AND ${projects.isPublic} = 1`)
-    .all() as ProjectRow[];
-  return rows[0] ?? null;
+  return guard(
+    () => {
+      const rows = db!.select()
+        .from(projects)
+        .where(sql`${projects.slug} = ${slug} AND ${projects.isPublic} = 1`)
+        .all() as ProjectRow[];
+      return rows[0] ?? null;
+    },
+    null
+  );
 }
 
 // Agents
 export async function getPublishedAgents(): Promise<AgentRow[]> {
-  return db
-    .select()
-    .from(agents)
-    .where(eq(agents.isPublished, true))
-    .orderBy(agents.username)
-    .all() as AgentRow[];
+  return guard(
+    () =>
+      db!.select()
+        .from(agents)
+        .where(eq(agents.isPublished, true))
+        .orderBy(agents.username)
+        .all() as AgentRow[],
+    []
+  );
 }
 
 export async function getAgentByUsername(username: string): Promise<AgentRow | null> {
-  const rows = db
-    .select()
-    .from(agents)
-    .where(eq(agents.username, username))
-    .all() as AgentRow[];
-  return rows[0] ?? null;
+  return guard(
+    () => {
+      const rows = db!.select()
+        .from(agents)
+        .where(eq(agents.username, username))
+        .all() as AgentRow[];
+      return rows[0] ?? null;
+    },
+    null
+  );
 }
 
 // PMO — all projects, grouped by owner
 export async function getPmoView() {
-  const allProjects = db.select().from(projects).orderBy(projects.ownerAgent, projects.name).all() as ProjectRow[];
-  const allAgents = db.select().from(agents).all() as AgentRow[];
+  return guard(
+    () => {
+      const allProjects = db!.select().from(projects).orderBy(projects.ownerAgent, projects.name).all() as ProjectRow[];
+      const allAgents = db!.select().from(agents).all() as AgentRow[];
 
-  const byOwner: Record<string, ProjectRow[]> = {};
-  for (const p of allProjects) {
-    const owner = p.ownerAgent || "unassigned";
-    if (!byOwner[owner]) byOwner[owner] = [];
-    byOwner[owner].push(p);
-  }
+      const byOwner: Record<string, ProjectRow[]> = {};
+      for (const p of allProjects) {
+        const owner = p.ownerAgent || "unassigned";
+        if (!byOwner[owner]) byOwner[owner] = [];
+        byOwner[owner].push(p);
+      }
 
-  return { byOwner, agents: allAgents };
+      return { byOwner, agents: allAgents };
+    },
+    { byOwner: {}, agents: [] }
+  );
 }
 
 // Admin — full CRUD
 export async function getAllProjects(): Promise<ProjectRow[]> {
-  return db.select().from(projects).orderBy(projects.name).all() as ProjectRow[];
+  return guard(
+    () => db!.select().from(projects).orderBy(projects.name).all() as ProjectRow[],
+    []
+  );
 }
 
 export async function getAllAgents(): Promise<AgentRow[]> {
-  return db.select().from(agents).orderBy(agents.username).all() as AgentRow[];
+  return guard(
+    () => db!.select().from(agents).orderBy(agents.username).all() as AgentRow[],
+    []
+  );
 }
 
 export async function getProjectById(id: number): Promise<ProjectRow | null> {
-  const rows = db.select().from(projects).where(eq(projects.id, id)).all() as ProjectRow[];
-  return rows[0] ?? null;
+  return guard(
+    () => {
+      const rows = db!.select().from(projects).where(eq(projects.id, id)).all() as ProjectRow[];
+      return rows[0] ?? null;
+    },
+    null
+  );
 }
 
 export async function updateProject(id: number, patch: Partial<ProjectRow>, actor: string, ip?: string) {
@@ -110,7 +151,7 @@ export async function updateProject(id: number, patch: Partial<ProjectRow>, acto
   if (!before) throw new Error(`Project ${id} not found`);
 
   const updated = { ...patch, updatedAt: new Date(), lastActivityAt: new Date() };
-  db.update(projects).set(updated).where(eq(projects.id, id)).run();
+  db!.update(projects).set(updated).where(eq(projects.id, id)).run();
 
   await logAudit({
     actor,
@@ -125,7 +166,7 @@ export async function updateProject(id: number, patch: Partial<ProjectRow>, acto
 }
 
 export async function createProject(data: Omit<ProjectRow, "id" | "createdAt" | "updatedAt">, actor: string, ip?: string) {
-  const inserted = db.insert(projects).values({
+  const inserted = db!.insert(projects).values({
     ...data,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -145,11 +186,11 @@ export async function createProject(data: Omit<ProjectRow, "id" | "createdAt" | 
 }
 
 export async function updateAgent(id: number, patch: Partial<AgentRow>, actor: string, ip?: string) {
-  const before = db.select().from(agents).where(eq(agents.id, id)).all() as AgentRow[];
+  const before = db!.select().from(agents).where(eq(agents.id, id)).all() as AgentRow[];
   if (!before[0]) throw new Error(`Agent ${id} not found`);
 
   const updated = { ...patch, updatedAt: new Date() };
-  db.update(agents).set(updated).where(eq(agents.id, id)).run();
+  db!.update(agents).set(updated).where(eq(agents.id, id)).run();
 
   await logAudit({
     actor,
@@ -160,7 +201,7 @@ export async function updateAgent(id: number, patch: Partial<AgentRow>, actor: s
     ip,
   });
 
-  const after = db.select().from(agents).where(eq(agents.id, id)).all() as AgentRow[];
+  const after = db!.select().from(agents).where(eq(agents.id, id)).all() as AgentRow[];
   return after[0];
 }
 
@@ -172,7 +213,7 @@ export async function logAudit(entry: {
   changes?: any;
   ip?: string;
 }) {
-  db.insert(auditLog).values({
+  db!.insert(auditLog).values({
     actor: entry.actor,
     entity: entry.entity,
     entityId: entry.entityId,
@@ -184,7 +225,10 @@ export async function logAudit(entry: {
 }
 
 export async function getAuditLog(limit = 50) {
-  return db.select().from(auditLog).orderBy(desc(auditLog.createdAt)).limit(limit).all();
+  return guard(
+    () => db!.select().from(auditLog).orderBy(desc(auditLog.createdAt)).limit(limit).all(),
+    []
+  );
 }
 
 function diff(before: any, patch: any): Record<string, { before: any; after: any }> {
