@@ -1,8 +1,6 @@
-// LEGACY — replaced by web/data.sqlite as of 2026-09-30. Kept for
-// historical reference and for any downstream tooling that imports the
-// shape. The runtime now reads from `web/src/lib/db` (Drizzle).
-//
-// See docs/DATA_LAYER.md and docs/RENAMES.md.
+// Single source of truth for project data.
+// Used by: /web/src/components/Projects.tsx (card grid + inline detail),
+//          /web/src/app/projects/[slug]/page.tsx (legacy route — will be removed).
 
 export type Project = {
   slug: string;

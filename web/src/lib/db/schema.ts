@@ -13,10 +13,6 @@ export const projects = sqliteTable("projects", {
   overview: text("overview"),
   metrics: text("metrics"),
   techStack: text("tech_stack"),
-  // PMO additions 2026-09-30: owner + parent (for sparks) + last activity
-  ownerAgent: text("owner_agent"), // FK by username to agents.username; no schema FK (cross-version compat with old DBs)
-  parentProjectId: integer("parent_project_id"), // self-ref to projects.id; sparks roll up to a synthetic agent parent
-  lastActivityAt: integer("last_activity_at", { mode: "timestamp" }),
   publishedAt: integer("published_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),

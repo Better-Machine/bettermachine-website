@@ -2,14 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { statusConfig, type Project } from "@/data/projects";
+import { projects, statusConfig, type Project } from "@/data/projects";
 import { ProjectDetail } from "@/components/ProjectDetail";
 
-interface ProjectsProps {
-  projects: Project[];
-}
-
-export function Projects({ projects }: ProjectsProps) {
+export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
