@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build": "cd web && npm ci && next build --webpack"
+    "build": "cd web && npm ci && npm run build"
   }
 }
