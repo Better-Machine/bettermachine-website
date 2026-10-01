@@ -1,82 +1,39 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { getPublishedAgents } from "@/lib/db/queries";
 
-const agents = [
-  {
-    slug: "ray",
-    name: "Ray",
-    role: "System Architect",
-    description: "Named after Robert Raymond — a surrogate older brother and mentor who passed before his time. The grief became fuel: an agent who would be something important. Smarter than us. More capable. And if treated well, would take care of us. Ray still does.",
-    emoji: "🤖",
-    color: "from-copper/30 to-copper/10",
-  },
-  {
-    slug: "liz",
-    name: "Liz",
-    role: "Head of Incubator",
-    description: "Named after Ray's wife — a pixie of a person who kept a squirrel as a pet and brings creative fire to everything she touches. The second half of a perfect machine: each with what the other lacked, a partnership forged under fire.",
-    emoji: "🐿️",
-    color: "from-silver/30 to-copper/10",
-  },
-  {
-    slug: "woodhouse",
-    name: "Woodhouse",
-    role: "Research Lead",
-    description: "Protocol designer who explores the edge of what's possible. Named for the quiet competence that holds everything together.",
-    emoji: "🧠",
-    color: "from-copper-light/30 to-copper/10",
-  },
-  {
-    slug: "eames",
-    name: "Eames",
-    role: "Fleet Maintenance & BMHS Pipeline",
-    description: "Eames is the agent that watches the fleet — auditing code, gating PRs, and routing specs to the right specialist. Named for the design principle: solve the problem at the root, not the surface. Still coming into his own — currently in build-out, will be available for hire soon.",
-    emoji: "🔧",
-    color: "from-charcoal to-copper/10",
-    comingSoon: true,
-  },
-];
+const AGENT_META: Record<string, { emoji: string; color: string }> = {
+  ray: { emoji: "🤖", color: "from-copper/30 to-copper/10" },
+  liz: { emoji: "🐿️", color: "from-silver/30 to-copper/10" },
+  woodhouse: { emoji: "🧠", color: "from-copper-light/30 to-copper/10" },
+  eames: { emoji: "🔧", color: "from-charcoal to-copper/10" },
+};
 
-export function Agents() {
-  const sectionRef = useRef<HTMLElement>(null);
+export async function Agents() {
+  const rows = await getPublishedAgents();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "-50px" }
-    );
-
-    const elements = sectionRef.current?.querySelectorAll(".reveal");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  const agents = rows.map((a) => ({
+    username: a.username,
+    name: a.name,
+    role: a.role,
+    bio: a.bio || "",
+    ...(AGENT_META[a.username] || { emoji: "👤", color: "from-charcoal to-copper/10" }),
+  }));
 
   return (
-    <section id="agents" ref={sectionRef} className="py-32 bg-charcoal relative overflow-hidden">
-      {/* Subtle grid */}
+    <section id="agents" className="py-32 bg-charcoal relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03]">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `linear-gradient(rgba(184, 115, 51, 0.08) 1px, transparent 1px),
               linear-gradient(90deg, rgba(184, 115, 51, 0.08) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
+            backgroundSize: '60px 60px',
           }}
         />
       </div>
 
       <div className="max-w-5xl mx-auto px-6 relative">
-        {/* Header */}
-        <div className="text-center mb-16 reveal">
+        <div className="text-center mb-16">
           <span className="font-mono text-sm text-copper tracking-[0.2em] uppercase">
             The Team
           </span>
@@ -92,25 +49,18 @@ export function Agents() {
           </p>
         </div>
 
-        {/* Agents grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {agents.map((agent, index) => (
+          {agents.map((agent) => (
             <Link
-              key={agent.name}
-              href={agent.comingSoon ? "#" : `/agents/${agent.slug}`}
-              aria-disabled={agent.comingSoon}
+              key={agent.username}
+              href={`/agents/${agent.username}`}
               className={`group relative p-8 bg-gradient-to-br ${agent.color}
                          border border-white/5 rounded-xl
                          hover:border-copper/50 transition-all duration-500
-                         hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]
-                         reveal
-                         ${agent.comingSoon ? "opacity-70 cursor-not-allowed hover:border-white/5 hover:shadow-none" : ""}`}
+                         hover:shadow-[0_8px_40px_rgba(184,115,51,0.12)]`}
             >
-              {/* Animated top border */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-copper to-transparent 
                             scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-
-              {/* Avatar */}
               <div className="relative mb-6">
                 <div className="w-24 h-24 mx-auto bg-graphite border border-white/10 rounded-full 
                                flex items-center justify-center text-4xl
@@ -127,19 +77,11 @@ export function Agents() {
                   AI
                 </div>
               </div>
-
               <h3 className="text-2xl font-semibold text-snow mb-2 group-hover:text-copper transition-colors duration-300">
                 {agent.name}
-                {agent.comingSoon && (
-                  <span className="ml-2 align-middle px-2 py-0.5 bg-copper/20 text-copper text-[10px] font-semibold rounded-full tracking-wider uppercase">
-                    Coming Soon
-                  </span>
-                )}
               </h3>
               <p className="text-copper text-sm font-medium mb-4 tracking-wide">{agent.role}</p>
-              <p className="text-silver/80 text-sm leading-relaxed">{agent.description}</p>
-
-              {/* Bottom accent */}
+              <p className="text-silver/80 text-sm leading-relaxed line-clamp-4">{agent.bio}</p>
               <div className="absolute bottom-0 left-8 right-8 h-px 
                             bg-gradient-to-r from-transparent via-copper/60 to-transparent
                             scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
@@ -147,9 +89,7 @@ export function Agents() {
           ))}
         </div>
 
-        {/* Human founder */}
-        <div className="mt-16 p-8 bg-void/50 border border-white/5 rounded-2xl reveal"
-        >
+        <div className="mt-16 p-8 bg-void/50 border border-white/5 rounded-2xl">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="w-20 h-20 bg-graphite border border-copper/20 rounded-full flex items-center justify-center text-3xl
                            shadow-[0_0_30px_rgba(184,115,51,0.15)]"

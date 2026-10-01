@@ -13,6 +13,11 @@ export const projects = sqliteTable("projects", {
   overview: text("overview"),
   metrics: text("metrics"),
   techStack: text("tech_stack"),
+  // PMO fields (added 2026-10-01)
+  ownerAgent: text("owner_agent").references(() => agents.username),
+  parentProjectId: integer("parent_project_id"),
+  lastActivityAt: integer("last_activity_at", { mode: "timestamp" }),
+  isPublic: integer("is_public", { mode: "boolean" }).notNull().default(true),
   publishedAt: integer("published_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
@@ -100,6 +105,18 @@ export const mediaAssets = sqliteTable("media_assets", {
   alt: text("alt"),
   tags: text("tags"),
   uploadedBy: integer("uploaded_by").references(() => agents.id),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+// Audit log — tracks every /internal/admin edit (added 2026-10-01)
+export const auditLog = sqliteTable("audit_log", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  actor: text("actor").notNull(),              // username or "system"
+  entity: text("entity").notNull(),            // "projects" | "agents"
+  entityId: integer("entity_id").notNull(),
+  action: text("action").notNull(),            // "create" | "update" | "delete"
+  changes: text("changes"),                    // JSON: { field: { before, after } }
+  ip: text("ip"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 

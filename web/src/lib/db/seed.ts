@@ -1,13 +1,58 @@
 import { db } from ".";
 import { projects, agents, blogPosts, projectTeam } from "./schema";
 
+// Idempotent schema migrations (added 2026-10-01 for /internal/admin)
+function migrate() {
+  console.log("🔧 Running idempotent migrations...");
+  const sqlite = (db as any).session?.client || (db as any).$client;
+  if (!sqlite) {
+    console.warn("  ⚠️  Could not access raw SQLite client — migrations skipped");
+    return;
+  }
+  const alters = [
+    "ALTER TABLE projects ADD COLUMN owner_agent TEXT REFERENCES agents(username)",
+    "ALTER TABLE projects ADD COLUMN parent_project_id INTEGER",
+    "ALTER TABLE projects ADD COLUMN last_activity_at INTEGER",
+    "ALTER TABLE projects ADD COLUMN is_public INTEGER NOT NULL DEFAULT 1",
+    `CREATE TABLE IF NOT EXISTS audit_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      actor TEXT NOT NULL,
+      entity TEXT NOT NULL,
+      entity_id INTEGER NOT NULL,
+      action TEXT NOT NULL,
+      changes TEXT,
+      ip TEXT,
+      created_at INTEGER NOT NULL
+    )`,
+    "CREATE INDEX IF NOT EXISTS idx_audit_log_entity ON audit_log(entity, entity_id)",
+    "CREATE INDEX IF NOT EXISTS idx_audit_log_created ON audit_log(created_at)",
+    "CREATE INDEX IF NOT EXISTS idx_projects_owner ON projects(owner_agent)",
+    "CREATE INDEX IF NOT EXISTS idx_projects_parent ON projects(parent_project_id)",
+  ];
+  for (const sql of alters) {
+    try {
+      sqlite.exec(sql);
+    } catch (e: any) {
+      if (!String(e?.message || e).toLowerCase().includes("duplicate")) {
+        console.warn(`  ⚠️  Migration failed: ${sql} — ${e?.message || e}`);
+      }
+    }
+  }
+  console.log("✅ Migrations complete");
+}
+
 async function seed() {
   console.log("🌱 Seeding database...");
+  migrate();
+
 
   // Seed Projects
   const projectData = [
     {
       slug: "hockeyops",
+      ownerAgent: "liz",
+      lastActivityAt: new Date(),
+      isPublic: true,
       name: "HockeyOps.ai",
       tagline: "AI platform for NHL front offices",
       description: "Player evaluation, scouting, and operations automation for NHL teams. Built by someone who plays the game, not just watches it.",
@@ -23,6 +68,9 @@ async function seed() {
     },
     {
       slug: "localzon",
+      ownerAgent: "erik",
+      lastActivityAt: new Date(),
+      isPublic: true,
       name: "Localzon",
       tagline: "Democratized ecommerce + logistics",
       description: "Ecommerce reimagined. No-fee platform for independent stores with consolidated logistics. Built by someone who got his start in online retail.",
@@ -38,6 +86,9 @@ async function seed() {
     },
     {
       slug: "mesh-memory",
+      ownerAgent: "woodhouse",
+      lastActivityAt: new Date(),
+      isPublic: true,
       name: "mesh-memory",
       tagline: "Multi-agent memory sharing protocol",
       description: "The connective tissue between AI agents. A shared memory layer that lets agents collaborate without losing individuality.",
@@ -53,6 +104,9 @@ async function seed() {
     },
     {
       slug: "cleansl8",
+      ownerAgent: "liz",
+      lastActivityAt: new Date(),
+      isPublic: false,
       name: "CleanSL8",
       tagline: "Bluetooth LE security auditing",
       description: "Security tooling for the invisible radio spectrum. Find, fingerprint, and audit BLE devices in your environment.",
@@ -68,6 +122,9 @@ async function seed() {
     },
     {
       slug: "doors",
+      ownerAgent: "liz",
+      lastActivityAt: new Date(),
+      isPublic: true,
       name: "door$",
       tagline: "Music industry transparency",
       description: "The music industry is broken. We know because we've been in it. door$ is what happens when a recovering musician decides to fix the thing that nearly broke him.",
@@ -83,6 +140,9 @@ async function seed() {
     },
     {
       slug: "gtc-tech",
+      ownerAgent: "erik",
+      lastActivityAt: new Date(),
+      isPublic: false,
       name: "GTC Tech",
       tagline: "Hardware acceleration for additive manufacturing",
       description: "GTC Tech is in active POC — building the tooling layer that takes 3D printing from prototype to production line. Performance, repeatability, and a workflow that operators actually want to use.",
@@ -98,6 +158,9 @@ async function seed() {
     },
     {
       slug: "extrusion-supplies",
+      ownerAgent: "erik",
+      lastActivityAt: new Date(),
+      isPublic: false,
       name: "Extrusion Supplies",
       tagline: "Filament and tooling for serious operators",
       description: "Web project in active development — a curated storefront and supply service for the people who print every day and know the difference between 'works' and 'works the same way twice.'",
@@ -178,6 +241,9 @@ async function seed() {
   const postData = [
     {
       slug: "hockeyops-update-may-2026",
+      ownerAgent: "erik",
+      lastActivityAt: new Date(),
+      isPublic: true,
       title: "HockeyOps.ai: May Update",
       excerpt: "Three NHL teams now in active pilot. The data pipeline is handling 2.3M data points daily.",
       content: "The HockeyOps.ai platform continues to gain traction. This month we onboarded our third NHL team for pilot testing. The platform's ability to predict player performance with 94% accuracy is turning heads in front offices. We're now processing 2.3 million data points daily, and the insights are getting sharper with each game.",
@@ -188,6 +254,9 @@ async function seed() {
     },
     {
       slug: "mesh-memory-v1-release",
+      ownerAgent: "erik",
+      lastActivityAt: new Date(),
+      isPublic: true,
       title: "mesh-memory v1.0 Released",
       excerpt: "The multi-agent memory sharing protocol is now production-ready.",
       content: "After months of development, mesh-memory v1.0 is officially released. The protocol now supports secure cross-agent memory sharing with <50ms recall latency. All three agents in the fleet are running the latest version.",
