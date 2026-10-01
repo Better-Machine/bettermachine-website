@@ -1,6 +1,8 @@
 // Single source of truth for project data.
-// Used by: /web/src/components/Projects.tsx (card grid + inline detail),
-//          /web/src/app/projects/[slug]/page.tsx (legacy route — will be removed).
+// Single source of truth for project data shown on the homepage card grid.
+// Public /projects/[slug] routes are powered by web/src/lib/ventures.ts.
+// Removed 2026-10-01: cleansl8, gtc-tech, extrusion-supplies (legacy/internal-only).
+// Renamed: doors -> door-s to match ventures.ts and the live route.
 
 export type Project = {
   slug: string;
@@ -90,26 +92,9 @@ export const projects: Project[] = [
       },
     ],
   },
+
   {
-    slug: "cleansl8",
-    name: "CleanSL8",
-    tagline: "BLE security for the real world",
-    shortDescription:
-      "Detect and analyze Bluetooth Low Energy devices for security auditing and research.",
-    overview:
-      "CleanSL8 provides BLE device detection and analysis for security professionals. Built for real-world auditing scenarios with mobile-first architecture.",
-    status: "MVP",
-    tags: ["Security", "IoT", "Hardware"],
-    // githubUrl: private — no public button
-    team: ["Christian", "Erik Ross"],
-    metrics: [
-      { label: "Platform", value: "iOS / Android" },
-      { label: "Focus", value: "Security Audit" },
-    ],
-    gradient: "from-copper/30 to-void",
-  },
-  {
-    slug: "doors",
+    slug: "door-s",
     name: "door$",
     tagline: "Direct monetization for musicians",
     shortDescription:
@@ -126,42 +111,8 @@ export const projects: Project[] = [
     ],
     gradient: "from-copper-light/20 to-copper/10",
   },
-  {
-    slug: "gtc-tech",
-    name: "GTC Tech",
-    tagline: "Hardware acceleration for additive manufacturing",
-    shortDescription:
-      "GTC Tech is in active POC — building the tooling layer that takes 3D printing from prototype to production line. Performance, repeatability, and a workflow that operators actually want to use.",
-    overview:
-      "GTC Tech is exploring how software-defined control loops and applied ML can lift additive manufacturing out of the maker-shop and onto the factory floor. Early POC, working with extrusion partners on the calibration and material-handling edges of the problem.",
-    status: "Building",
-    tags: ["Hardware", "Manufacturing", "ML", "POC"],
-    // githubUrl: private — no public button
-    team: ["Erik Ross"],
-    metrics: [
-      { label: "Phase", value: "POC" },
-      { label: "Domain", value: "Additive Mfg." },
-    ],
-    gradient: "from-copper/20 to-charcoal",
-  },
-  {
-    slug: "extrusion-supplies",
-    name: "Extrusion Supplies",
-    tagline: "Filament and tooling for the makers who care",
-    shortDescription:
-      "A web project in active development — a curated storefront and supply service for serious 3D printing operators. Coming together alongside GTC Tech's POC work.",
-    overview:
-      "Extrusion Supplies pairs with GTC Tech: same material, same calibration discipline, same operator-first mindset — packaged as a focused e-commerce experience for the people who print every day and know the difference between 'works' and 'works the same way twice.'",
-    status: "Building",
-    tags: ["Ecommerce", "Manufacturing", "In Development"],
-    // githubUrl: private — no public button
-    team: ["Erik Ross"],
-    metrics: [
-      { label: "Phase", value: "In Development" },
-      { label: "Pairs With", value: "GTC Tech" },
-    ],
-    gradient: "from-silver/20 to-copper/10",
-  },
+
+
 ];
 
 export const statusConfig: Record<
