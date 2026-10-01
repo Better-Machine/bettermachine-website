@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getAgentByUsername } from "@/lib/db/queries";
+import { getAgentByUsername } from "@bm/db";
 import { notFound } from "next/navigation";
 import { AgentEditForm } from "@/components/admin/AgentEditForm";
 

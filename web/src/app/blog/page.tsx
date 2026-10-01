@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BlogCard } from "@/components/blog/BlogCard";
-import { getPosts, formatDate, GhostPost } from "@/lib/ghost";
+import { getPosts, formatDate, GhostPost } from "@bm/db/ghost";
 
 export const metadata: Metadata = {
   title: "Studio Blog | Better Machine",

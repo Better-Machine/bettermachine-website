@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getProjectById, getAllAgents, getAllProjects } from "@/lib/db/queries";
+import { getProjectById, getAllAgents, getAllProjects } from "@bm/db";
 import { notFound } from "next/navigation";
 import { ProjectEditForm } from "@/components/admin/ProjectEditForm";
 

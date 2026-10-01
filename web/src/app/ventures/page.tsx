@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getPublicProjects } from "@/lib/db/queries";
+import { getPublicProjects } from "@bm/db";
 
 export const metadata: Metadata = {
   title: "Ventures — Better Machine",

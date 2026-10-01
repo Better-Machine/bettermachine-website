@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPmoView } from "@/lib/db/queries";
+import { getPmoView } from "@bm/db";
 
 function ensurePrivate(req: NextRequest) {
   const host = req.headers.get("host") || "";

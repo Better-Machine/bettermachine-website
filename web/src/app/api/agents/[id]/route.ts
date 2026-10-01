@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAgentByUsername, updateAgent } from "@/lib/db/queries";
+import { getAgentByUsername, updateAgent } from "@bm/db";
 
 function getActor(req: NextRequest): string {
   const auth = req.headers.get("authorization") || "";

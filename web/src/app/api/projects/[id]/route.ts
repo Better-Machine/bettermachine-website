@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjectById, updateProject } from "@/lib/db/queries";
+import { getProjectById, updateProject } from "@bm/db";
 
 function getActor(req: NextRequest): string {
   // Basic auth user from header (we already validated in proxy.ts)

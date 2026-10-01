@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getPublicProjects } from "@/lib/db/queries";
+import { getPublicProjects } from "@bm/db";
 import { ProjectsGrid } from "./ProjectsGrid";
 
 export async function Projects() {

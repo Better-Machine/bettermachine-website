@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPublishedAgents } from "@/lib/db/queries";
+import { getPublishedAgents } from "@bm/db";
 
 const AGENT_META: Record<string, { emoji: string; color: string }> = {
   ray: { emoji: "🤖", color: "from-copper/30 to-copper/10" },

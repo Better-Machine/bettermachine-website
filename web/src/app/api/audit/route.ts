@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuditLog } from "@/lib/db/queries";
+import { getAuditLog } from "@bm/db";
 
 function ensurePrivate(req: NextRequest) {
   const host = req.headers.get("host") || "";

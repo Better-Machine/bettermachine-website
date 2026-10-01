@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getPmoView } from "@/lib/db/queries";
+import { getPmoView } from "@bm/db";
 import Link from "next/link";
 
 export const metadata = {

@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getAllAgents } from "@/lib/db/queries";
+import { getAllAgents } from "@bm/db";
 import Link from "next/link";
 
 export default async function AdminAgentsList() {

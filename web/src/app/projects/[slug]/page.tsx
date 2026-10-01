@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getPublicProjectBySlug, getPublicProjects } from "@/lib/db/queries";
+import { getPublicProjectBySlug, getPublicProjects } from "@bm/db";
 
 type PageProps = { params: Promise<{ slug: string }> };
 

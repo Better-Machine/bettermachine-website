@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getAuditLog } from "@/lib/db/queries";
+import { getAuditLog } from "@bm/db";
 
 export default async function AdminAuditLog() {
   const entries = await getAuditLog(100);
