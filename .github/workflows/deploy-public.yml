@@ -32,6 +32,6 @@ jobs:
           username: u946149573
           port: 65002
           key: ${{ secrets.BETTERMACHINE_HOSTINGER_KEY }}
-          source: "apps/public/.next/"
+          source: "apps/public/out/"
           target: "/home/u946149573/domains/bettermachine.ai/public_html/"
           rm: true
