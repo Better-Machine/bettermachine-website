@@ -1,0 +1,37 @@
+name: Deploy Public Site to Hostinger
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [public-rebuild]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (monorepo)
+        run: npm ci
+
+      - name: Build public site (webpack)
+        run: cd apps/public && npm run build -- --webpack
+
+      - name: Deploy to Hostinger via SSH
+        uses: appleboy/scp-action@v1.0.3
+        with:
+          host: 145.79.4.138
+          username: u946149573
+          port: 65002
+          key: ${{ secrets.BETTERMACHINE_HOSTINGER_KEY }}
+          source: "apps/public/out/"
+          target: "/home/u946149573/domains/bettermachine.ai/public_html/"
+          rm: true
